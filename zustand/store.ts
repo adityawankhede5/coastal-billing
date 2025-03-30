@@ -1,9 +1,14 @@
 import { create } from "zustand";
 import { OrdersStore } from "./types";
 import { MENU_DICTIONARY } from "@/constants/menu";
+import { OrdersDB } from "@/indexedDB/Orders.db";
 
 const useOrdersStore = create<OrdersStore>((set, get) => ({
   orders: [],
+  init: async () => {
+    const orders = await OrdersDB.getAllOrders();
+    set({ orders });
+  },
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
   createOrder: (orderId: string, name?: string) => set((state) => {
     const newOrder = {
@@ -15,6 +20,9 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
       price: 0,
       quantity: 0,
     }
+    OrdersDB.upsertOrder(orderId, newOrder).catch((error) => {
+      console.error("Error creating order in IndexedDB:", error);
+    })
     return { orders: [...state.orders, newOrder] }
   }),
   updateCart: (orderId: string, itemId: string, quantity: number) => set((state) => {
@@ -33,12 +41,20 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     }
     const newTotalPrice = order.price + item.price * quantity;
     const newQuantity = order.quantity + quantity;
+    const newOrder = { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity }
+    OrdersDB.upsertOrder(orderId, newOrder).catch((error) => {
+      console.error("Error updating order in IndexedDB:", error);
+    })
     return { orders: state.orders.map((order) => order.id === orderId ? { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity } : order) }
   }),
   clearCart: (orderId: string) => set((state) => {
     const order = state.getOrder(orderId);
     if (!order) return state;
-    return { orders: state.orders.map((order) => order.id === orderId ? { ...order, cart: {}, price: 0, quantity: 0 } : order) }
+    const newOrder = { ...order, cart: {}, price: 0, quantity: 0 }
+    OrdersDB.upsertOrder(orderId, newOrder).catch((error) => {
+      console.error("Error updating order in IndexedDB:", error);
+    })
+    return { orders: state.orders.map((order) => order.id === orderId ? newOrder : order) }
   })
 }));
 
@@ -49,5 +65,7 @@ export const useOrder = (orderId: string) => {
 export const useOrdersSorted = () => {
   return useOrdersStore((state) => state.orders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()));
 }
+
+useOrdersStore.getState().init();
 
 export default useOrdersStore;

@@ -10,6 +10,7 @@ export type Order = {
 
 export type OrdersStore = {
   orders: Order[];
+  init: () => Promise<void>;
   getOrder: (orderId: string) => Order | undefined;
   createOrder: (orderId: string, name?: string) => void;
   updateCart: (orderId: string, itemId: string, quantity: number) => void;

@@ -3,10 +3,19 @@ import { ROUTES } from "@/constants/routes";
 import { getRoute } from "@/constants/routes";
 import useOrdersStore, { useOrdersSorted } from "@/zustand/store";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 export default function Home() {
+  const { init } = useOrdersStore();
   const orders = useOrdersSorted();
   const router = useRouter();
   const today = new Date().toDateString();
+  // useEffect(() => {
+  //   init().then(() => {
+  //     console.log("Orders initialized");
+  //   }).catch((error) => {
+  //     console.error("Error initializing orders:", error);
+  //   })
+  // }, [init])
   if (orders.length === 0) return <div className="flex justify-center items-center h-screen text-subheading">No orders yet</div>
   return (
     <div className="flex flex-col gap-2">
