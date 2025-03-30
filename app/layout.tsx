@@ -29,9 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-family-default text-default color-default color-background h-screen`}
       >
-        <div className="grid grid-rows-[56px_1fr_40px] h-full">
+        <div className="grid grid-rows-[56px_1fr] h-full">
           <Header />
-          <main className="overflow-y-auto px-2">
+          <main className="overflow-y-auto px-2 mb-[40px]">
             {children}
           </main>
           <Footer />
