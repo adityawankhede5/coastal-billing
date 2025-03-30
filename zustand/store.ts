@@ -3,9 +3,7 @@ import { OrdersStore } from "./types";
 import { MENU_DICTIONARY } from "@/constants/menu";
 
 const useOrdersStore = create<OrdersStore>((set, get) => ({
-  orders: [
-    { id: "7uhkl6ds5ud", name: "John Doe", cart: {}, price: 0, quantity: 0, createdAt: new Date(), number: 1 }
-  ],
+  orders: [],
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
   createOrder: (orderId: string, name?: string) => set((state) => {
     const newOrder = {
@@ -46,6 +44,10 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
 
 export const useOrder = (orderId: string) => {
   return useOrdersStore((state) => state.getOrder(orderId));
+}
+
+export const useOrdersSorted = () => {
+  return useOrdersStore((state) => state.orders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()));
 }
 
 export default useOrdersStore;
