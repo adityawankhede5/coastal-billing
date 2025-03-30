@@ -1,5 +1,96 @@
 @import "tailwindcss";
 
+.text-heading {
+  @apply text-xl font-bold;
+}
+.text-subheading {
+  @apply text-lg font-semibold;
+}
+.text-default {
+  @apply text-base font-normal;
+}
+.text-small {
+  @apply text-sm font-medium;
+}
+.text-tiny {
+  @apply text-xs text-gray-500;
+}
+
+.color-primary {
+  @apply bg-blue-600 text-white;
+}
+.color-primary-dark{
+  @apply bg-blue-700 text-white;
+}
+.color-secondary{
+  @apply bg-orange-400 text-white;
+}
+.color-secondary-dark{
+  @apply bg-red-500 text-white;
+}
+.color-success{
+  @apply text-green-600;
+}
+.color-warning{
+  @apply text-yellow-500;
+}
+.color-background{
+  @apply bg-gray-100;
+}
+.color-default{
+  @apply text-gray-900;
+}
+.color-muted{
+  @apply text-gray-500;
+}
+
+.spacing-tiny-m {
+  @apply m-1;
+}
+.spacing-tiny-p {
+  @apply p-1;
+}
+.spacing-small-m {
+  @apply m-2;
+}
+.spacing-small-p {
+  @apply p-2;
+}
+.spacing-medium-m {
+  @apply m-3;
+}
+.spacing-medium-p {
+  @apply p-3;
+}
+.spacing-large-m {
+  @apply m-4;
+}
+.spacing-large-p {
+  @apply p-4;
+} 
+.spacing-xlarge-m {
+  @apply m-5;
+}
+.spacing-xlarge-p {
+  @apply p-5;
+}
+
+.button-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 active:scale-95 transition;
+}
+
+.button-secondary {
+  @apply bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500;
+}
+
+.button-ghost {
+  @apply border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-100;
+}
+
+.font-family-default {
+  font-family: 'Poppins', sans-serif;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -24,6 +115,3 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 } */
- html, body{
-  font-family: 'Poppins', sans-serif;
- }

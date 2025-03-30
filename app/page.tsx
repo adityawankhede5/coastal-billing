@@ -102,7 +102,7 @@ export default function Home() {
               <div>&#8377;{totalPrice}</div>
             </div>
             <div className="flex justify-center items-center">
-              <button onClick={handleQRGenerateClick} className="bg-[#007AFF] w-full text-white px-4 py-2 rounded-md">Generate QR</button>
+              <button onClick={handleQRGenerateClick} className="button-primary w-full">Generate QR</button>
             </div>
           </div>
         </div>
