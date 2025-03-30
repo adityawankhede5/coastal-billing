@@ -9,7 +9,7 @@ export default function Footer() {
   const pathname = usePathname();
   const { quantity } = useCartStore();
   return (
-    <footer className="flex bg-white shadow-lg border-t border-solid border-gray-300">
+    <footer className="fixed h-[40px] bottom-0 left-0 right-0 flex bg-white shadow-lg border-t border-solid border-gray-300">
       <button className={`flex justify-center items-center flex-1 ${pathname === ROUTES.MENU ? "text-[#007AFF]" : ""}`} onClick={() => router.push(ROUTES.MENU)}><MenuIcon className="w-6 h-6" /></button>
       <button className={`flex justify-center items-center flex-1 ${pathname === ROUTES.CART ? "text-[#007AFF]" : ""}`} onClick={() => router.push(ROUTES.CART)}><div className="flex justify-center items-center w-6 h-6 relative"><CartIcon className="w-6 h-6" />
         {quantity > 0 && <span className="absolute box-border scale-75 left-2.5 -top-3 bg-blue-500 text-xs px-2 py-1 text-white rounded-3xl">{quantity}</span>}
