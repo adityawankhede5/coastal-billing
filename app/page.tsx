@@ -11,7 +11,8 @@ export default function Home() {
     updateCart(itemId, quantity);
   }
   return (
-    <div className="flex flex-col gap-2">
+    <>
+      <div className="flex flex-col gap-2">
       {Object.keys(MENU).map((key) => (
         <div key={key}>
           <h2 className="text-small px-2">{CATEGORY[key as MENU_CATEGORY]}</h2>
@@ -32,5 +33,6 @@ export default function Home() {
         </div>
       ))}
     </div>
+    </>
   );
 }
