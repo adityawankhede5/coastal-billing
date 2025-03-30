@@ -91,6 +91,17 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.card{
+  @apply bg-white shadow-md rounded-lg p-4;
+}
+.card-muted{
+  @apply text-gray-500 px-4 py-2 rounded-lg;
+}
+
+.divider{
+  @apply border-t border-gray-300;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

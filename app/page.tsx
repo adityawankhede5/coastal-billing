@@ -1,38 +1,33 @@
 "use client"
-import MENU, { CATEGORY } from "@/constants/menu";
-import { MENU_CATEGORY } from "@/constants/types";
-import PlusIcon from "@/assets/icons/plus.svg";
-import MinusIcon from "@/assets/icons/minus.svg";
-import Image from "next/image";
-import useCartStore from "@/zustand/store";
+import { ROUTES } from "@/constants/routes";
+import { getRoute } from "@/constants/routes";
+import useOrdersStore, { useOrdersSorted } from "@/zustand/store";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 export default function Home() {
-  const { cart, updateCart } = useCartStore();
-  const handleUpdateCart = (itemId: string, quantity: number = 1) => {
-    updateCart(itemId, quantity);
-  }
+  const { init } = useOrdersStore();
+  const orders = useOrdersSorted();
+  const router = useRouter();
+  const today = new Date().toDateString();
+  // useEffect(() => {
+  //   init().then(() => {
+  //     console.log("Orders initialized");
+  //   }).catch((error) => {
+  //     console.error("Error initializing orders:", error);
+  //   })
+  // }, [init])
+  if (orders.length === 0) return <div className="flex justify-center items-center h-screen text-subheading">No orders yet</div>
   return (
-    <>
-      <div className="flex flex-col gap-2">
-      {Object.keys(MENU).map((key) => (
-        <div key={key}>
-          <h2 className="text-small px-2">{CATEGORY[key as MENU_CATEGORY]}</h2>
-          {MENU[key as MENU_CATEGORY].map((item) => (
-            <div key={item.id} className="flex justify-center items-center py-2 px-3 border-0 border-b border-solid border-gray-200">
-              <div className="flex-1">
-                <div className="text-subheading">{item.name}</div>
-                {/* <div>{item.description}</div> */}
-                <div className="text-tiny">&#8377;{item.price}</div>
-              </div>
-              <div className="flex bg-gray-200 rounded-sm overflow-hidden">
-                <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, -1)}><Image className="w-4 h-4" src={MinusIcon} alt="-" /></span>
-                <span className="flex justify-center items-center w-6 h-6 bg-gray-50">{cart[item.id] || 0}</span>
-                <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, 1)}><Image className="w-4 h-4" src={PlusIcon} alt="+" /></span>
-              </div>
-              </div>
-            ))}
+    <div className="flex flex-col gap-2">
+      <div className="card-muted text-subheading">{today}</div>
+      {orders.map((order) => (
+        <div key={order.id} className="card" onClick={() => router.push(getRoute(order.id, ROUTES.MENU))}>
+          <div className="flex justify-between items-center">
+            <div className="text-subheading">Order #{order.number}</div>
+            <div className="text-subheading color-muted">&#8377;{order.price}</div>
+          </div>
         </div>
       ))}
     </div>
-    </>
   );
 }

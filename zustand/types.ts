@@ -1,7 +1,18 @@
-export type CartStore = {
+export type Order = {
+  id: string;
+  name: string;
+  number: number;
   cart: Record<string, number>;
-  totalPrice: number;
+  price: number;
   quantity: number;
-  updateCart: (itemId: string, quantity: number) => void;
-  clearCart: () => void;
+  createdAt: Date;
+};
+
+export type OrdersStore = {
+  orders: Order[];
+  init: () => Promise<void>;
+  getOrder: (orderId: string) => Order | undefined;
+  createOrder: (orderId: string, name?: string) => void;
+  updateCart: (orderId: string, itemId: string, quantity: number) => void;
+  clearCart: (orderId: string) => void;
 };
