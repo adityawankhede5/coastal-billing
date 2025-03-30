@@ -18,5 +18,5 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   console.log('Notification click received.')
   event.notification.close()
-  event.waitUntil(clients.openWindow('https://adityawankhede5.github.io/coastal-billing/'))
+  event.waitUntil(clients.openWindow('https://coastal-billing.vercel.app/'))
 })
