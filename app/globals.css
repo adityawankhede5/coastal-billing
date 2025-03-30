@@ -91,6 +91,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.card{
+  @apply bg-white shadow-md rounded-lg p-4;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

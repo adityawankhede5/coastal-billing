@@ -4,9 +4,11 @@ import QRCodeModal from "@/components/QRCodeModal";
 import { useState } from "react";
 import { useOrder } from "@/zustand/store";
 import NotFound from "@/components/NotFound";
+import { useParams } from "next/navigation";
 
 export default function Cart() {
-  const order = useOrder("7uhkl6ds5ud");
+  const { orderId } = useParams();
+  const order = useOrder(orderId as string);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);

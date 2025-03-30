@@ -4,12 +4,12 @@ import { MENU_DICTIONARY } from "@/constants/menu";
 
 const useOrdersStore = create<OrdersStore>((set, get) => ({
   orders: [
-    { id: "7uhkl6ds5ud", name: "John Doe", cart: {}, price: 0, quantity: 0, createdAt: new Date() }
+    { id: "7uhkl6ds5ud", name: "John Doe", cart: {}, price: 0, quantity: 0, createdAt: new Date(), number: 1 }
   ],
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
-  createOrder: (name?: string) => set((state) => {
+  createOrder: (orderId: string, name?: string) => set((state) => {
     const newOrder = {
-      id: Math.random().toString(36).substring(2, 15),
+      id: orderId,
       createdAt: new Date(),
       name: name || "",
       number: state.orders.length + 1,
