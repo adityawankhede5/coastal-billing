@@ -2,14 +2,14 @@
 import Image from "next/image";
 import Logo from "@/assets/images/logo.png";
 import ResetIcon from "@/assets/icons/ResetIcon";
-import useCartStore from "@/zustand/store";
+import useOrdersStore from "@/zustand/store";
 import { usePathname } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 export default function Header() {
   const pathname = usePathname();
-  const { clearCart } = useCartStore();
+  const { clearCart } = useOrdersStore();
   const handleResetCart = () => {
-    clearCart();
+    clearCart("7uhkl6ds5ud");
   }
   return (
     <header className="bg-white flex items-center border-0 border-b border-solid border-gray-200 mb-1 px-2">

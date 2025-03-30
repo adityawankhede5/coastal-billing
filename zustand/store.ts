@@ -1,32 +1,51 @@
 import { create } from "zustand";
-import { CartStore } from "./types";
+import { OrdersStore } from "./types";
 import { MENU_DICTIONARY } from "@/constants/menu";
 
-const useCartStore = create<CartStore>((set) => ({
-  items: {},
-  totalPrice: 0,
-  quantity: 0,
-  updateCart: (itemId: string, quantity: number = 1) => set((state) => {
+const useOrdersStore = create<OrdersStore>((set, get) => ({
+  orders: [
+    { id: "7uhkl6ds5ud", name: "John Doe", cart: {}, price: 0, quantity: 0, createdAt: new Date() }
+  ],
+  getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
+  createOrder: (name?: string) => set((state) => {
+    const newOrder = {
+      id: Math.random().toString(36).substring(2, 15),
+      createdAt: new Date(),
+      name: name || "",
+      number: state.orders.length + 1,
+      cart: {},
+      price: 0,
+      quantity: 0,
+    }
+    return { orders: [...state.orders, newOrder] }
+  }),
+  updateCart: (orderId: string, itemId: string, quantity: number) => set((state) => {
+    const order = state.getOrder(orderId);
+    if (!order) return state;
     const item = MENU_DICTIONARY[itemId];
     if (!item) return state;
     if (quantity < 0) {
-      if (!state.items[itemId]) return state;
-      if (state.items[itemId] === 0) return state;
+      if (!order.cart[itemId]) return state;
+      if (order.cart[itemId] === 0) return state;
     }
-    const newCart = { ...state.items };
+    const newCart = { ...order.cart };
     newCart[itemId] = (newCart[itemId] || 0) + quantity;
     if (newCart[itemId] === 0) {
       delete newCart[itemId];
     }
-    const newTotalPrice = state.totalPrice + item.price * quantity;
-    const newQuantity = state.quantity + quantity;
-    return {
-      items: newCart,
-      totalPrice: newTotalPrice,
-      quantity: newQuantity,
-    }
+    const newTotalPrice = order.price + item.price * quantity;
+    const newQuantity = order.quantity + quantity;
+    return { orders: state.orders.map((order) => order.id === orderId ? { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity } : order) }
   }),
-  clearCart: () => set({ items: {}, totalPrice: 0, quantity: 0 }),
+  clearCart: (orderId: string) => set((state) => {
+    const order = state.getOrder(orderId);
+    if (!order) return state;
+    return { orders: state.orders.map((order) => order.id === orderId ? { ...order, cart: {}, price: 0, quantity: 0 } : order) }
+  })
 }));
 
-export default useCartStore;
+export const useOrder = (orderId: string) => {
+  return useOrdersStore((state) => state.getOrder(orderId));
+}
+
+export default useOrdersStore;

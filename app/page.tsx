@@ -4,12 +4,15 @@ import { MENU_CATEGORY } from "@/constants/types";
 import PlusIcon from "@/assets/icons/plus.svg";
 import MinusIcon from "@/assets/icons/minus.svg";
 import Image from "next/image";
-import useCartStore from "@/zustand/store";
+import useOrdersStore, { useOrder } from "@/zustand/store";
 export default function Home() {
-  const { items, updateCart } = useCartStore();
+  const order = useOrder("7uhkl6ds5ud");
+  const { updateCart } = useOrdersStore();
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
-    updateCart(itemId, quantity);
+    if (!order) return;
+    updateCart(order.id, itemId, quantity);
   }
+  if (!order) return <div>Order not found</div>;
   return (
     <>
       <div className="flex flex-col gap-2">
@@ -25,7 +28,7 @@ export default function Home() {
               </div>
               <div className="flex bg-gray-200 rounded-sm overflow-hidden">
                 <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, -1)}><Image className="w-4 h-4" src={MinusIcon} alt="-" /></span>
-                <span className="flex justify-center items-center w-6 h-6 bg-gray-50">{items[item.id] || 0}</span>
+                <span className="flex justify-center items-center w-6 h-6 bg-gray-50">{order.cart[item.id] || 0}</span>
                 <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, 1)}><Image className="w-4 h-4" src={PlusIcon} alt="+" /></span>
               </div>
               </div>
