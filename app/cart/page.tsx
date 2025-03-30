@@ -1,7 +1,5 @@
 "use client";
 import { MENU_DICTIONARY } from "@/constants/menu";
-import Image from "next/image";
-import Logo from "@/assets/images/logo.png";
 import QRCodeModal from "@/components/QRCodeModal";
 import { useState } from "react";
 import useCartStore from "@/zustand/store";
