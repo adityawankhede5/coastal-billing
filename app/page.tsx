@@ -6,7 +6,7 @@ import MinusIcon from "@/assets/icons/minus.svg";
 import Image from "next/image";
 import useCartStore from "@/zustand/store";
 export default function Home() {
-  const { cart, updateCart } = useCartStore();
+  const { items, updateCart } = useCartStore();
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     updateCart(itemId, quantity);
   }
@@ -25,7 +25,7 @@ export default function Home() {
               </div>
               <div className="flex bg-gray-200 rounded-sm overflow-hidden">
                 <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, -1)}><Image className="w-4 h-4" src={MinusIcon} alt="-" /></span>
-                <span className="flex justify-center items-center w-6 h-6 bg-gray-50">{cart[item.id] || 0}</span>
+                <span className="flex justify-center items-center w-6 h-6 bg-gray-50">{items[item.id] || 0}</span>
                 <span className="flex justify-center items-center w-6 h-6 border-0 bg-gray-200" onClick={() => handleUpdateCart(item.id, 1)}><Image className="w-4 h-4" src={PlusIcon} alt="+" /></span>
               </div>
               </div>

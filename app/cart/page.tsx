@@ -5,7 +5,7 @@ import { useState } from "react";
 import useCartStore from "@/zustand/store";
 
 export default function Cart() {
-  const { cart, totalPrice } = useCartStore();
+  const { items, totalPrice } = useCartStore();
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
@@ -14,11 +14,11 @@ export default function Cart() {
     <>
       <div className="flex flex-col gap-2">
         <div className="pb-40">
-          {Object.keys(cart).map((key) => (
+          {Object.keys(items).map((key) => (
             <div key={key} className="flex justify-center items-center py-2 px-3 border-0 border-b border-solid border-gray-200">
               <div className="flex-1">
                 <div className="text-subheading">{MENU_DICTIONARY[key].name}</div>
-                <div className="text-tiny">Qty: {cart[key]}</div>
+                <div className="text-tiny">Qty: {items[key]}</div>
               </div>
               <div className="text-subheading">&#8377;{MENU_DICTIONARY[key].price}</div>
             </div>
