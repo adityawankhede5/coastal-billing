@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .text-heading {
-  @apply text-xl font-bold;
+  @apply text-2xl font-bold;
 }
 .text-subheading {
   @apply text-lg font-semibold;
