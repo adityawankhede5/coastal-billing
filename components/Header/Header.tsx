@@ -6,13 +6,26 @@ import useOrdersStore, { useOrder } from "@/zustand/store";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { getRoute, ROUTES } from "@/constants/routes";
 import { useMemo } from "react";
+import { updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { doc } from "firebase/firestore";
 export default function Header() {
   const router = useRouter();
   const { orderId } = useParams();
   const pathname = usePathname();
   const { clearCart } = useOrdersStore();
-  const handleResetCart = () => {
+  const handleResetCart = async () => {
     if (!orderId) return;
+    try {
+      const orderRef = doc(db, "orders", orderId as string);
+      await updateDoc(orderRef, {
+        cart: {},
+        price: 0,
+        quantity: 0,
+      })
+    } catch (error) {
+      console.error(error);
+    }
     clearCart(orderId as string);
   }
   const title = useMemo(() => {

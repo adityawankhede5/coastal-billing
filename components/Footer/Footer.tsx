@@ -4,16 +4,31 @@ import MenuIcon from "@/assets/icons/MenuIcon";
 import { getRoute, ROUTES } from "@/constants/routes";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import useOrdersStore, { useOrder } from "@/zustand/store";
+import { db } from "@/lib/firebase";
+import { addDoc, collection, getCountFromServer } from "firebase/firestore";
 export default function Footer() {
   const { orderId } = useParams();
-  const { createOrder } = useOrdersStore();
+  const { appendOrder } = useOrdersStore();
   const router = useRouter();
   const pathname = usePathname();
   const order = useOrder(orderId as string);
-  const handleNewOrder = () => {
-    const orderId = Math.random().toString(36).substring(2, 15);
-    createOrder(orderId);
-    router.push(getRoute(orderId, ROUTES.MENU));
+  const handleNewOrder = async () => {
+    const countSnapshot = await getCountFromServer(collection(db, "orders"));
+    const newOrder = {
+      createdAt: new Date(),
+      number: countSnapshot.data().count + 1,
+      name: "",
+      cart: {},
+      price: 0,
+      quantity: 0,
+    }
+    try {
+      const createdOrder = await addDoc(collection(db, "orders"), newOrder);
+      appendOrder({ ...newOrder, id: createdOrder.id });
+      router.push(getRoute(createdOrder.id, ROUTES.MENU));
+    } catch (error) {
+      console.error(error);
+    }
   }
   return (
     <footer className="fixed h-[40px] bottom-0 left-0 right-0 flex bg-white shadow-lg border-t border-solid border-gray-300">

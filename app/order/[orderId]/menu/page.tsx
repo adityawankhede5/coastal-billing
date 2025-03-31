@@ -7,6 +7,8 @@ import Image from "next/image";
 import useOrdersStore, { useOrder } from "@/zustand/store";
 import { useParams } from "next/navigation";
 import NotFound from "@/components/NotFound";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 export default function Menu() {
   const { orderId } = useParams();
   const order = useOrder(orderId as string);
@@ -14,6 +16,19 @@ export default function Menu() {
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     if (!order) return;
     updateCart(order.id, itemId, quantity);
+  }
+  const handleSaveCart = async () => {
+    if (!order) return;
+    try {
+      const orderRef = doc(db, "orders", order.id);
+      await updateDoc(orderRef, {
+        cart: order.cart,
+        price: order.price,
+        quantity: order.quantity,
+      })
+    } catch (error) {
+      console.error(error);
+    }
   }
   if (!order) return <NotFound message="Order not found" />;
   return (
@@ -38,6 +53,9 @@ export default function Menu() {
             ))}
           </div>
         ))}
+        <div className="flex justify-end items-center sticky bottom-0 py-1 px-2">
+          <button className="button button-primary" onClick={handleSaveCart}>Save</button>
+        </div>
       </div>
     </>
   );
