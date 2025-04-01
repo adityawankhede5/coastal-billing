@@ -62,7 +62,7 @@ export default function Header() {
       {
         currentPage === PAGE.CART || currentPage === PAGE.MENU && order && (
           <div className="flex gap-2 items-center">
-            {order && <div className="text-subheading color-muted">Order #{order.number}</div>}
+            {order && <div className="text-sm text-gray-500">Order @{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</div>}
             {order && <span onClick={handleResetCart}><ResetIcon className="w-8 h-8 rotate-x-1" /></span>}
           </div>
         )
