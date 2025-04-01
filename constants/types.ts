@@ -1,4 +1,10 @@
-export type MENU_CATEGORY = "SANDWICH" | "MEAL" | "BEVERAGE" | "GOODMORNING";
+export enum MENU_CATEGORY {
+  SANDWICH = "SANDWICH",
+  BEVERAGE = "BEVERAGE",
+  GOOD_MORNING = "GOOD_MORNING",
+  COMBO = "COMBO",
+  TRIPLE_LAYERED_MEAL = "TRIPLE_LAYERED_MEAL",
+}
 export type MENU_ITEM = {
   id: string;
   name: string;
