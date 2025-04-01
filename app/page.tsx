@@ -6,7 +6,6 @@ import { collection } from "firebase/firestore";
 import { query } from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
 export default async function Home() {
-  const today = new Date().toDateString();
   const querySnapshot = await getDocs(query(collection(db, "orders")));
   const orders = querySnapshot.docs.map((doc) => {
     const data = doc.data();
@@ -18,12 +17,12 @@ export default async function Home() {
       cart: data.cart,
       price: data.price,
       quantity: data.quantity,
+      status: data.status,
     } as Order;
   });
   if (orders.length === 0) return <div className="flex justify-center items-center h-screen text-subheading">No orders yet</div>
   return (
     <div className="flex flex-col gap-2">
-      <div className="card-muted text-subheading">{today}</div>
       <OrdersList orders={orders} />
     </div>
   );
