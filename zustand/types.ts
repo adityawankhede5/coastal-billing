@@ -1,7 +1,11 @@
 export enum ORDER_STATUS {
   PENDING = "pending",
-  COMPLETED = "completed",
+  COMPLETE = "complete",
   CANCELLED = "cancelled",
+}
+export enum PAYMENT_METHOD {
+  CASH = "cash",
+  ONLINE = "online",
 }
 export type Order = {
   id: string;
@@ -12,6 +16,10 @@ export type Order = {
   quantity: number;
   createdAt: Date;
   status: ORDER_STATUS;
+  payment?: {
+    method: PAYMENT_METHOD;
+    receivedAt: Date;
+  };
 };
 
 export type OrdersStore = {
