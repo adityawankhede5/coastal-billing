@@ -7,10 +7,11 @@ import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import SearchInput from "@/components/SearchInput";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
+  const query = useRef("");
   const { orderId } = useParams();
   const order = useOrder(orderId as string);
   const handleSaveCart = async () => {
@@ -28,9 +29,10 @@ export default function Menu() {
   }
 
   const handleSearch = (search: string) => {
+    query.current = search;
     const searchLowerCase = search.toLowerCase();
     const filteredMenu = Object.keys(MENU).reduce((acc, key) => {
-      const items = MENU[key as MENU_CATEGORY].filter((item) => item.name.toLowerCase().includes(searchLowerCase) || item.description.toLowerCase().includes(searchLowerCase));
+      const items = MENU[key as MENU_CATEGORY].filter((item) => item.name.toLowerCase().includes(searchLowerCase));
       if (items.length > 0) {
         acc[key as MENU_CATEGORY] = items;
       }
@@ -49,7 +51,7 @@ export default function Menu() {
             </div>
             <div className="flex flex-col gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
-              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} orderId={orderId as string} />
+              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} orderId={orderId as string} query={query.current} />
             ))}
             </div>
           </div>
