@@ -1,3 +1,8 @@
+export enum ORDER_STATUS {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  CANCELLED = "cancelled",
+}
 export type Order = {
   id: string;
   name: string;
@@ -6,6 +11,7 @@ export type Order = {
   price: number;
   quantity: number;
   createdAt: Date;
+  status: ORDER_STATUS;
 };
 
 export type OrdersStore = {

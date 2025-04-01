@@ -6,6 +6,7 @@ import { useRouter, usePathname, useParams } from "next/navigation";
 import useOrdersStore, { useOrder } from "@/zustand/store";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, getCountFromServer } from "firebase/firestore";
+import { ORDER_STATUS } from "@/zustand/types";
 export default function Footer() {
   const { orderId } = useParams();
   const { appendOrder } = useOrdersStore();
@@ -21,6 +22,7 @@ export default function Footer() {
       cart: {},
       price: 0,
       quantity: 0,
+      status: ORDER_STATUS.PENDING,
     }
     try {
       const createdOrder = await addDoc(collection(db, "orders"), newOrder);
