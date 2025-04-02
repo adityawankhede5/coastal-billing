@@ -80,15 +80,15 @@
 }
 
 .button-secondary {
-  @apply bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500;
+  @apply bg-orange-400 text-white px-4 py-2 rounded-md hover:bg-orange-500 active:scale-95 transition;
 }
 
 .button-ghost {
-  @apply border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-100;
+  @apply border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-100 active:scale-95 transition;
 }
 
 .font-family-default {
-  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
 }
 
 .card{
