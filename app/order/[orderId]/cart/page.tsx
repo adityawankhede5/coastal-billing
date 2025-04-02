@@ -1,28 +1,23 @@
 "use client";
 import { MENU_DICTIONARY } from "@/constants/menu";
 import QRCodeModal from "@/components/QRCodeModal";
-import { useEffect, useState } from "react";
-import { useOrder } from "@/zustand/store";
+import { useState } from "react";
 import NotFound from "@/components/NotFound";
 import { useParams } from "next/navigation";
 import MenuItemCard from "@/components/MenuItemCard";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
-
+import useOrdersStore from "@/zustand/store";
+import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 export default function Cart() {
   const { orderId } = useParams();
-  const order = useOrder(orderId as string);
+  const { getOrder, loading } = useOrdersStore();
+  const order = getOrder(orderId as string);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
   }
-  const [isHydrated, setIsHydrated] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsHydrated(true);
-    }, 100);
-  }, []);
-  if (!isHydrated) return <></>;
+  if (loading) return <LoadingSkeleton />
   if (!order) return <NotFound message="Order not found" />
   return (
     <>

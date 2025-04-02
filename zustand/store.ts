@@ -4,8 +4,9 @@ import { MENU_DICTIONARY } from "@/constants/menu";
 
 const useOrdersStore = create<OrdersStore>((set, get) => ({
   orders: [],
+  loading: true,
   init: (incomingOrders: Order[]) => {
-    set({ orders: incomingOrders });
+    set({ orders: incomingOrders, loading: false });
   },
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
   setOrder: (orderId: string, order: Order) => set((state) => {
@@ -47,13 +48,5 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     return { orders: state.orders.map((order) => order.id === orderId ? newOrder : order) }
   })
 }));
-
-export const useOrder = (orderId: string) => {
-  return useOrdersStore((state) => state.getOrder(orderId));
-}
-
-export const useOrdersSorted = () => {
-  return useOrdersStore((state) => state.orders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()));
-}
 
 export default useOrdersStore;
