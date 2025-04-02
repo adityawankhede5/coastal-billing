@@ -5,7 +5,7 @@ import ResetIcon from "@/assets/icons/ResetIcon";
 import useOrdersStore from "@/zustand/store";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { getRoute, ROUTES } from "@/constants/routes";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { doc } from "firebase/firestore";
@@ -13,6 +13,8 @@ import CalendarIcon from "@/assets/icons/Calendar.icon";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
+import { Order } from "@/zustand/types";
+import { fetchOrder } from "@/zustand/helper";
 enum PAGE {
   ORDERS = "orders",
   MENU = "menu",
@@ -20,6 +22,7 @@ enum PAGE {
   EMPTY = "",
 }
 export default function Header() {
+  const [order, setOrder] = useState<Order | null>(null);
   const today = new Date().toDateString();
   const router = useRouter();
   const { orderId } = useParams();
@@ -45,8 +48,12 @@ export default function Header() {
     if (pathname === getRoute(orderId as string, ROUTES.CART)) return PAGE.CART;
     return PAGE.EMPTY;
   }, [orderId, pathname])
-  const { getOrder } = useOrdersStore();
-  const order = getOrder(orderId as string);
+
+  useEffect(() => {
+    fetchOrder(orderId as string).then((order) => {
+      setOrder(order);
+    });
+  }, [orderId]);
   return (
     <header className="bg-white flex items-center border-0 border-b border-solid border-gray-200 mb-1 px-2">
       <div className="flex-1 flex gap-2 items-center">

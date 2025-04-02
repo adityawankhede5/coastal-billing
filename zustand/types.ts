@@ -26,6 +26,7 @@ export type OrdersStore = {
   orders: Order[];
   loading: boolean;
   init: (incomingOrders: Order[]) => void;
+  getOrders: () => Order[];
   getOrder: (orderId: string) => Order | undefined;
   setOrder: (orderId: string, order: Order) => void;
   appendOrder: (order: Order) => void;
