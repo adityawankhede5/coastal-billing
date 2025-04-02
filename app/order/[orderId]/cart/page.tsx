@@ -45,7 +45,7 @@ export default function Cart() {
       <div className="flex flex-col gap-2">
         <div className="pb-40 flex flex-col gap-2">
           {Object.keys(order.cart).map((key) => (
-            <MenuItemCard key={key} item={MENU_DICTIONARY[key]} quantity={order.cart[key]} orderId={orderId as string} query={""} handleUpdateCart={handleUpdateCart} />
+            <MenuItemCard key={key} item={MENU_DICTIONARY[key]} quantity={order.cart[key]} query={""} handleUpdateCart={handleUpdateCart} />
           ))}
         </div>
         <div className="box-border fixed flex flex-col justify-center gap-2 bottom-10 h-28 left-0 right-0 px-4 bg-white shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-0 border-t-2 border-solid border-gray-200">

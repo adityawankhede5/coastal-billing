@@ -2,11 +2,10 @@ import MinusIcon from "@/assets/icons/Minus.icon";
 import PlusIcon from "@/assets/icons/Plus.icon";
 import RupeeIcon from "@/assets/icons/Rupee.icon";
 import { MENU_CATEGORY_ICONS } from "@/constants/menu";
-import useOrdersStore from "@/zustand/store";
 import HighlightText from "./HighlightText";
 import { MENU_ITEM } from "@/constants/types";
 
-export default function MenuItemCard({ item, quantity = 0, orderId, query, handleUpdateCart }: { item: MENU_ITEM, quantity: number, orderId: string, query: string, handleUpdateCart: (itemId: string, quantity: number) => void }) {
+export default function MenuItemCard({ item, quantity = 0, query, handleUpdateCart }: { item: MENU_ITEM, quantity: number, query: string, handleUpdateCart: (itemId: string, quantity: number) => void }) {
   const Icon = MENU_CATEGORY_ICONS[item.type];
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">

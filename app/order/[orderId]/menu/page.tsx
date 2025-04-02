@@ -76,7 +76,7 @@ export default function Menu() {
             </div>
             <div className="flex flex-col gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
-              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} orderId={orderId as string} query={query.current} handleUpdateCart={handleUpdateCart} />
+              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} query={query.current} handleUpdateCart={handleUpdateCart} />
             ))}
             </div>
           </div>
