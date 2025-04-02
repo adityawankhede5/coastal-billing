@@ -4,7 +4,6 @@ import "./globals.css";
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import { Suspense } from "react";
-import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 import FetchData from "@/components/FetchData";
 import AppLoadingSkeleton from "@/components/Skeletons/AppLoadingSkeleton";
 
