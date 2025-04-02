@@ -26,7 +26,7 @@ export default function MenuItemCard({ item, quantity = 0, orderId, query }: { i
         <div className="flex items-center">
           <div className="flex items-center text-gray-900">
             <RupeeIcon className="w-4 h-4 " />
-            <span className="text-lg font-medium">{item.price}</span>
+            <span className="text-lg font-semibold">{item.price}</span>
           </div>
         </div>
       </div>
