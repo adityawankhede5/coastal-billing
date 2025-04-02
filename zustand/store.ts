@@ -9,6 +9,7 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     set({ orders: incomingOrders, loading: false });
   },
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
+  getOrders: () => get().orders,
   setOrder: (orderId: string, order: Order) => set((state) => {
     const newOrders = [...state.orders];
     const index = newOrders.findIndex((order) => order.id === orderId);

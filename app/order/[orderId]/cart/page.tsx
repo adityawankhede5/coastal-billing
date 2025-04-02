@@ -1,7 +1,7 @@
 "use client";
 import { MENU_DICTIONARY } from "@/constants/menu";
 import QRCodeModal from "@/components/QRCodeModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NotFound from "@/components/NotFound";
 import { useParams } from "next/navigation";
 import MenuItemCard from "@/components/MenuItemCard";
@@ -9,10 +9,17 @@ import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import useOrdersStore from "@/zustand/store";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
+import { Order } from "@/zustand/types";
 export default function Cart() {
+  const [order, setOrder] = useState<Order | null>(null);
   const { orderId } = useParams();
   const { getOrder, loading } = useOrdersStore();
-  const order = getOrder(orderId as string);
+  useEffect(() => {
+    const _order = getOrder(orderId as string);
+    if (_order) {
+      setOrder(_order);
+    }
+  }, [getOrder, orderId]);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);

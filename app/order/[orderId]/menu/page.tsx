@@ -7,16 +7,23 @@ import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import SearchInput from "@/components/SearchInput";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
+import { Order } from "@/zustand/types";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
+  const [order, setOrder] = useState<Order | null>(null); 
   const query = useRef("");
   const { orderId } = useParams();
   const { getOrder, loading } = useOrdersStore();
-  const order = getOrder(orderId as string);
+  useEffect(() => {
+    const _order = getOrder(orderId as string);
+    if (_order) {
+      setOrder(_order);
+    }
+  }, [getOrder, orderId]);
   const handleSaveCart = async () => {
     if (!order) return;
     try {
