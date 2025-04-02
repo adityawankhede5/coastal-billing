@@ -58,7 +58,6 @@ export default function Footer() {
       </div></button>
           </> :
           <>
-            <button onClick={handleNewOrder} className="button button-primary w-full flex justify-center items-center m-1 mx-4">New Order</button>
           </>
       }
     </footer>
