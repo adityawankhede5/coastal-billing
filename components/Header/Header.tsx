@@ -12,6 +12,7 @@ import { doc } from "firebase/firestore";
 import CalendarIcon from "@/assets/icons/Calendar.icon";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
+import { ORDERS_COLLECTION } from "@/constants/DB";
 enum PAGE {
   ORDERS = "orders",
   MENU = "menu",
@@ -27,7 +28,7 @@ export default function Header() {
   const handleResetCart = async () => {
     if (!orderId) return;
     try {
-      const orderRef = doc(db, "orders", orderId as string);
+      const orderRef = doc(db, ORDERS_COLLECTION, orderId as string);
       await updateDoc(orderRef, {
         cart: {},
         price: 0,

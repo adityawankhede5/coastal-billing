@@ -1,0 +1,1 @@
+export const ORDERS_COLLECTION = "ORDERS_PROD";

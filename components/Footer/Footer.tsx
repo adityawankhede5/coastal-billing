@@ -8,6 +8,7 @@ import { db } from "@/lib/firebase";
 import { addDoc, collection, getCountFromServer } from "firebase/firestore";
 import { ORDER_STATUS } from "@/zustand/types";
 import PlusIcon from "@/assets/icons/Plus.icon";
+import { ORDERS_COLLECTION } from "@/constants/DB";
 export default function Footer() {
   const { orderId } = useParams();
   const { appendOrder } = useOrdersStore();
@@ -15,7 +16,7 @@ export default function Footer() {
   const pathname = usePathname();
   const order = useOrder(orderId as string);
   const handleNewOrder = async () => {
-    const countSnapshot = await getCountFromServer(collection(db, "orders"));
+    const countSnapshot = await getCountFromServer(collection(db, ORDERS_COLLECTION));
     const newOrder = {
       createdAt: new Date(),
       number: countSnapshot.data().count + 1,
@@ -26,7 +27,7 @@ export default function Footer() {
       status: ORDER_STATUS.PENDING,
     }
     try {
-      const createdOrder = await addDoc(collection(db, "orders"), newOrder);
+      const createdOrder = await addDoc(collection(db, ORDERS_COLLECTION), newOrder);
       appendOrder({ ...newOrder, id: createdOrder.id });
       router.push(getRoute(createdOrder.id, ROUTES.MENU));
     } catch (error) {

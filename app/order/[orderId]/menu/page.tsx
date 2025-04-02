@@ -9,6 +9,7 @@ import { db } from "@/lib/firebase";
 import SearchInput from "@/components/SearchInput";
 import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
+import { ORDERS_COLLECTION } from "@/constants/DB";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -18,7 +19,7 @@ export default function Menu() {
   const handleSaveCart = async () => {
     if (!order) return;
     try {
-      const orderRef = doc(db, "orders", order.id);
+      const orderRef = doc(db, ORDERS_COLLECTION, order.id);
       await updateDoc(orderRef, {
         cart: order.cart,
         price: order.price,

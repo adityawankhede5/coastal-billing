@@ -7,6 +7,7 @@ import RupeeIcon from "@/assets/icons/Rupee.icon";
 import { ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
 import { db } from "@/lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { ORDERS_COLLECTION } from "@/constants/DB";
 const UPI_ID = "Q156327102@ybl";
 const NAME = "PhonePeMerchant";
 const DISPLAY_NAME = "MR KUBER NITIN PATIL";
@@ -17,7 +18,7 @@ export default function QRCodeModal({ amount, orderId, onClose }: { amount: numb
   }
   const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
     if (!orderId) return;
-    const orderRef = doc(db, "orders", orderId);
+    const orderRef = doc(db, ORDERS_COLLECTION, orderId);
     await updateDoc(orderRef, {
       status: ORDER_STATUS.COMPLETE,
       payment: {
