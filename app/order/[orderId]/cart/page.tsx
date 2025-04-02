@@ -18,7 +18,9 @@ export default function Cart() {
   }
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {
-    setIsHydrated(true);
+    setTimeout(() => {
+      setIsHydrated(true);
+    }, 100);
   }, []);
   if (!isHydrated) return <></>;
   if (!order) return <NotFound message="Order not found" />

@@ -43,7 +43,9 @@ export default function Menu() {
     setMenu(filteredMenu);
   }
   useEffect(() => {
-    setIsHydrated(true);
+    setTimeout(() => {
+      setIsHydrated(true);
+    }, 100);
   }, []);
   if (!isHydrated) return <></>;
   if (!order) return <NotFound message="Order not found" />;
