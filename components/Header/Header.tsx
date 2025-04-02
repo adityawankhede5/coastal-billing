@@ -10,6 +10,8 @@ import { updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { doc } from "firebase/firestore";
 import CalendarIcon from "@/assets/icons/Calendar.icon";
+import ClockIcon from "@/assets/icons/Clock.icon";
+import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 enum PAGE {
   ORDERS = "orders",
   MENU = "menu",
@@ -62,7 +64,19 @@ export default function Header() {
       {
         currentPage === PAGE.CART || currentPage === PAGE.MENU && order && (
           <div className="flex gap-2 items-center">
-            {order && <div className="text-sm text-gray-500">Order @{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</div>}
+            <div className="flex items-center space-x-1">
+              <span className="text-sm font-medium text-gray-500">#</span>
+              <span className="font-bold text-gray-900">{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
+              {order.status === 'pending' ? (
+                <div className="flex items-center text-amber-600">
+                  <ClockIcon className="w-4 h-4 mr-1" />
+                </div>
+              ) : (
+                <div className="flex items-center text-emerald-600">
+                  <CheckCircleIcon className="w-4 h-4 mr-1" />
+                </div>
+              )}
+            </div>
             {order && <span onClick={handleResetCart}><ResetIcon className="w-8 h-8 rotate-x-1" /></span>}
           </div>
         )
