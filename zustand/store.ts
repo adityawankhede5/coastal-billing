@@ -8,18 +8,6 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     set({ orders: incomingOrders });
   },
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
-  createOrder: (orderId: string, name?: string) => set((state) => {
-    const newOrder = {
-      id: orderId,
-      createdAt: new Date(),
-      name: name || "",
-      number: state.orders.length + 1,
-      cart: {},
-      price: 0,
-      quantity: 0,
-    }
-    return { orders: [newOrder, ...state.orders] }
-  }),
   appendOrder: (order: Order) => set((state) => {
     return { orders: [order, ...state.orders] }
   }),
