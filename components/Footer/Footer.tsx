@@ -7,6 +7,7 @@ import useOrdersStore, { useOrder } from "@/zustand/store";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, getCountFromServer } from "firebase/firestore";
 import { ORDER_STATUS } from "@/zustand/types";
+import PlusIcon from "@/assets/icons/Plus.icon";
 export default function Footer() {
   const { orderId } = useParams();
   const { appendOrder } = useOrdersStore();
@@ -32,6 +33,16 @@ export default function Footer() {
       console.error(error);
     }
   }
+  if (pathname === ROUTES.ORDERS) return (
+    <footer className="fixed bottom-0 left-0 right-0 flex">
+      <div className="flex justify-center items-center w-full" onClick={handleNewOrder}>
+        <div className="button button-primary w-full flex justify-center items-center gap-1 m-1 mx-4">
+          <PlusIcon />
+          <span>New Order</span>
+        </div>
+      </div>
+    </footer>
+  );
   return (
     <footer className="fixed h-[40px] bottom-0 left-0 right-0 flex bg-white shadow-lg border-t border-solid border-gray-300">
       {
