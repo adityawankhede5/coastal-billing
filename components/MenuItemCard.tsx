@@ -6,12 +6,7 @@ import useOrdersStore from "@/zustand/store";
 import HighlightText from "./HighlightText";
 import { MENU_ITEM } from "@/constants/types";
 
-export default function MenuItemCard({ item, quantity = 0, orderId, query }: { item: MENU_ITEM, quantity: number, orderId: string, query: string }) {
-  const { updateCart } = useOrdersStore();
-  const handleUpdateCart = (itemId: string, quantity: number = 1) => {
-    if (!orderId) return;
-    updateCart(orderId, itemId, quantity);
-  }
+export default function MenuItemCard({ item, quantity = 0, orderId, query, handleUpdateCart }: { item: MENU_ITEM, quantity: number, orderId: string, query: string, handleUpdateCart: (itemId: string, quantity: number) => void }) {
   const Icon = MENU_CATEGORY_ICONS[item.type];
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">

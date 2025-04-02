@@ -1,5 +1,5 @@
 "use client"
-import MENU, { CATEGORY } from "@/constants/menu";
+import MENU, { CATEGORY, MENU_DICTIONARY } from "@/constants/menu";
 import { MENU_CATEGORY, MENU_ITEM } from "@/constants/types";
 import { useParams } from "next/navigation";
 import NotFound from "@/components/NotFound";
@@ -20,7 +20,25 @@ export default function Menu() {
     fetchOrder(orderId as string).then((order) => {
       setOrder(order);
     });
-  }, [orderId])
+  }, [orderId]);
+  const handleUpdateCart = (itemId: string, quantity: number = 1) => {
+    if (!order) return;
+    const item = MENU_DICTIONARY[itemId];
+    if (!item) return;
+    if (quantity < 0) {
+      if (!order.cart[itemId]) return;
+      if (order.cart[itemId] === 0) return;
+    }
+    const newCart = { ...order.cart };
+    newCart[itemId] = (newCart[itemId] || 0) + quantity;
+    if (newCart[itemId] === 0) {
+      delete newCart[itemId];
+    }
+    const newTotalPrice = order.price + item.price * quantity;
+    const newQuantity = order.quantity + quantity;
+    const newOrder = { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity }
+    setOrder(newOrder);
+  }
   const handleSaveCart = async () => {
     if (!order) return;
     try {
@@ -58,7 +76,7 @@ export default function Menu() {
             </div>
             <div className="flex flex-col gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
-              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} orderId={orderId as string} query={query.current} />
+              <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} orderId={orderId as string} query={query.current} handleUpdateCart={handleUpdateCart} />
             ))}
             </div>
           </div>

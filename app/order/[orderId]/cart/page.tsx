@@ -21,13 +21,31 @@ export default function Cart() {
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
   }
+  const handleUpdateCart = (itemId: string, quantity: number = 1) => {
+    if (!order) return;
+    const item = MENU_DICTIONARY[itemId];
+    if (!item) return;
+    if (quantity < 0) {
+      if (!order.cart[itemId]) return;
+      if (order.cart[itemId] === 0) return;
+    }
+    const newCart = { ...order.cart };
+    newCart[itemId] = (newCart[itemId] || 0) + quantity;
+    if (newCart[itemId] === 0) {
+      delete newCart[itemId];
+    }
+    const newTotalPrice = order.price + item.price * quantity;
+    const newQuantity = order.quantity + quantity;
+    const newOrder = { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity }
+    setOrder(newOrder);
+  }
   if (!order) return <NotFound message="Order not found" />
   return (
     <>
       <div className="flex flex-col gap-2">
         <div className="pb-40 flex flex-col gap-2">
           {Object.keys(order.cart).map((key) => (
-            <MenuItemCard key={key} item={MENU_DICTIONARY[key]} quantity={order.cart[key]} orderId={orderId as string} query={""} />
+            <MenuItemCard key={key} item={MENU_DICTIONARY[key]} quantity={order.cart[key]} orderId={orderId as string} query={""} handleUpdateCart={handleUpdateCart} />
           ))}
         </div>
         <div className="box-border fixed flex flex-col justify-center gap-2 bottom-10 h-28 left-0 right-0 px-4 bg-white shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-0 border-t-2 border-solid border-gray-200">
