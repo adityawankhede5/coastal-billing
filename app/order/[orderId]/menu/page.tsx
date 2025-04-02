@@ -16,7 +16,7 @@ export default function Menu() {
   const [order, setOrder] = useState<Order | null>(null); 
   const query = useRef("");
   const { orderId } = useParams();
-  const { getOrder, loading } = useOrdersStore();
+  const { getOrder } = useOrdersStore();
   useEffect(() => {
     const _order = getOrder(orderId as string);
     if (_order) {

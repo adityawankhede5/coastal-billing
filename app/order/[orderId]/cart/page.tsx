@@ -12,7 +12,7 @@ import { Order } from "@/zustand/types";
 export default function Cart() {
   const [order, setOrder] = useState<Order | null>(null);
   const { orderId } = useParams();
-  const { getOrder, loading } = useOrdersStore();
+  const { getOrder } = useOrdersStore();
   useEffect(() => {
     const _order = getOrder(orderId as string);
     if (_order) {
