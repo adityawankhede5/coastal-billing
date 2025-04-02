@@ -15,6 +15,7 @@ export default async function OrderLayout({ children, params }: { children: Reac
   try {
     order = serializeOrder(orderDoc);
   } catch (error) {
+    console.error(error);
     redirect(ROUTES.ORDERS);
   }
   return (

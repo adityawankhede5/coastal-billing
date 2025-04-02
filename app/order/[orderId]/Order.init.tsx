@@ -8,6 +8,6 @@ export default function OrderInit({ order }: { order: Order }) {
   const { setOrder } = useOrdersStore();
   useEffect(() => {
     setOrder(order.id, order);
-  }, [])
+  }, [order, setOrder])
   return null;
 }

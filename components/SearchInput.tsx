@@ -11,7 +11,7 @@ export default function SearchInput({ onSearch }: { onSearch: (search: string) =
   }
   const debouncedSearch = useCallback(debounce((value: string) => {
     onSearch(value);
-  }, 500), [onSearch])
+  }, 500), [onSearch]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
