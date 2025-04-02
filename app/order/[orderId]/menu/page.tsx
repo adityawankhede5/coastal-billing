@@ -10,7 +10,6 @@ import SearchInput from "@/components/SearchInput";
 import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
-import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 import { Order } from "@/zustand/types";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
@@ -50,7 +49,6 @@ export default function Menu() {
     }, {} as Record<MENU_CATEGORY, MENU_ITEM[]>);
     setMenu(filteredMenu);
   }
-  if (loading) return <LoadingSkeleton />;
   if (!order) return <NotFound message="Order not found" />;
   return (
     <>

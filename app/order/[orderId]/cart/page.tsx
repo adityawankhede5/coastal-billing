@@ -8,7 +8,6 @@ import MenuItemCard from "@/components/MenuItemCard";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import useOrdersStore from "@/zustand/store";
-import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 import { Order } from "@/zustand/types";
 export default function Cart() {
   const [order, setOrder] = useState<Order | null>(null);
@@ -24,7 +23,6 @@ export default function Cart() {
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
   }
-  if (loading) return <LoadingSkeleton />
   if (!order) return <NotFound message="Order not found" />
   return (
     <>
