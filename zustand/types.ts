@@ -26,6 +26,7 @@ export type OrdersStore = {
   orders: Order[];
   init: (incomingOrders: Order[]) => void;
   getOrder: (orderId: string) => Order | undefined;
+  setOrder: (orderId: string, order: Order) => void;
   appendOrder: (order: Order) => void;
   updateCart: (orderId: string, itemId: string, quantity: number) => void;
   clearCart: (orderId: string) => void;

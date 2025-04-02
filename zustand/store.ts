@@ -8,6 +8,16 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     set({ orders: incomingOrders });
   },
   getOrder: (orderId: string) => get().orders.find((order) => order.id === orderId),
+  setOrder: (orderId: string, order: Order) => set((state) => {
+    const newOrders = [...state.orders];
+    const index = newOrders.findIndex((order) => order.id === orderId);
+    if (index === -1) {
+      newOrders.push(order);
+    } else {
+      newOrders[index] = order;
+    }
+    return { orders: newOrders };
+  }),
   appendOrder: (order: Order) => set((state) => {
     return { orders: [order, ...state.orders] }
   }),

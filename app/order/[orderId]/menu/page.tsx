@@ -7,10 +7,11 @@ import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import SearchInput from "@/components/SearchInput";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
+  const [isHydrated, setIsHydrated] = useState(false);
   const query = useRef("");
   const { orderId } = useParams();
   const order = useOrder(orderId as string);
@@ -40,6 +41,10 @@ export default function Menu() {
     }, {} as Record<MENU_CATEGORY, MENU_ITEM[]>);
     setMenu(filteredMenu);
   }
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+  if (!isHydrated) return <></>;
   if (!order) return <NotFound message="Order not found" />;
   return (
     <>

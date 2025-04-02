@@ -1,7 +1,7 @@
 "use client";
 import { MENU_DICTIONARY } from "@/constants/menu";
 import QRCodeModal from "@/components/QRCodeModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOrder } from "@/zustand/store";
 import NotFound from "@/components/NotFound";
 import { useParams } from "next/navigation";
@@ -14,6 +14,11 @@ export default function Cart() {
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
   }
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+  if (!isHydrated) return <></>;
   if (!order) return <NotFound message="Order not found" />
   return (
     <>
