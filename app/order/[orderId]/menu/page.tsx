@@ -1,7 +1,6 @@
 "use client"
 import MENU, { CATEGORY } from "@/constants/menu";
 import { MENU_CATEGORY, MENU_ITEM } from "@/constants/types";
-import useOrdersStore from "@/zustand/store";
 import { useParams } from "next/navigation";
 import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
@@ -11,18 +10,17 @@ import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import { Order } from "@/zustand/types";
+import { fetchOrder } from "@/zustand/helper";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
   const [order, setOrder] = useState<Order | null>(null); 
   const query = useRef("");
   const { orderId } = useParams();
-  const { getOrder } = useOrdersStore();
   useEffect(() => {
-    const _order = getOrder(orderId as string);
-    if (_order) {
-      setOrder(_order);
-    }
-  }, [getOrder, orderId]);
+    fetchOrder(orderId as string).then((order) => {
+      setOrder(order);
+    });
+  }, [orderId])
   const handleSaveCart = async () => {
     if (!order) return;
     try {

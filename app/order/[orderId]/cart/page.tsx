@@ -7,18 +7,16 @@ import { useParams } from "next/navigation";
 import MenuItemCard from "@/components/MenuItemCard";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
-import useOrdersStore from "@/zustand/store";
 import { Order } from "@/zustand/types";
+import { fetchOrder } from "@/zustand/helper";
 export default function Cart() {
   const [order, setOrder] = useState<Order | null>(null);
   const { orderId } = useParams();
-  const { getOrder } = useOrdersStore();
   useEffect(() => {
-    const _order = getOrder(orderId as string);
-    if (_order) {
-      setOrder(_order);
-    }
-  }, [getOrder, orderId]);
+    fetchOrder(orderId as string).then((order) => {
+      setOrder(order);
+    });
+  }, [orderId]);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const handleQRGenerateClick = () => {
     setIsQRCodeModalOpen(true);
