@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Logo from "@/assets/images/logo.png";
 import ResetIcon from "@/assets/icons/ResetIcon";
-import useOrdersStore, { useOrder } from "@/zustand/store";
+import useOrdersStore from "@/zustand/store";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { getRoute, ROUTES } from "@/constants/routes";
 import { useMemo } from "react";
@@ -45,7 +45,8 @@ export default function Header() {
     if (pathname === getRoute(orderId as string, ROUTES.CART)) return PAGE.CART;
     return PAGE.EMPTY;
   }, [orderId, pathname])
-  const order = useOrder(orderId as string);
+  const { getOrder } = useOrdersStore();
+  const order = getOrder(orderId as string);
   return (
     <header className="bg-white flex items-center border-0 border-b border-solid border-gray-200 mb-1 px-2">
       <div className="flex-1 flex gap-2 items-center">

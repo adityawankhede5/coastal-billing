@@ -3,7 +3,7 @@ import CartIcon from "@/assets/icons/CartIcon";
 import MenuIcon from "@/assets/icons/MenuIcon";
 import { getRoute, ROUTES } from "@/constants/routes";
 import { useRouter, usePathname, useParams } from "next/navigation";
-import useOrdersStore, { useOrder } from "@/zustand/store";
+import useOrdersStore from "@/zustand/store";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, getCountFromServer } from "firebase/firestore";
 import { ORDER_STATUS } from "@/zustand/types";
@@ -11,10 +11,10 @@ import PlusIcon from "@/assets/icons/Plus.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 export default function Footer() {
   const { orderId } = useParams();
-  const { appendOrder } = useOrdersStore();
+  const { appendOrder, getOrder } = useOrdersStore();
   const router = useRouter();
   const pathname = usePathname();
-  const order = useOrder(orderId as string);
+  const order = getOrder(orderId as string);
   const handleNewOrder = async () => {
     const countSnapshot = await getCountFromServer(collection(db, ORDERS_COLLECTION));
     const newOrder = {

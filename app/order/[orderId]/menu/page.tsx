@@ -1,21 +1,22 @@
 "use client"
 import MENU, { CATEGORY } from "@/constants/menu";
 import { MENU_CATEGORY, MENU_ITEM } from "@/constants/types";
-import { useOrder } from "@/zustand/store";
+import useOrdersStore from "@/zustand/store";
 import { useParams } from "next/navigation";
 import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import SearchInput from "@/components/SearchInput";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
+import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
-  const [isHydrated, setIsHydrated] = useState(false);
   const query = useRef("");
   const { orderId } = useParams();
-  const order = useOrder(orderId as string);
+  const { getOrder, loading } = useOrdersStore();
+  const order = getOrder(orderId as string);
   const handleSaveCart = async () => {
     if (!order) return;
     try {
@@ -42,12 +43,7 @@ export default function Menu() {
     }, {} as Record<MENU_CATEGORY, MENU_ITEM[]>);
     setMenu(filteredMenu);
   }
-  useEffect(() => {
-    setTimeout(() => {
-      setIsHydrated(true);
-    }, 100);
-  }, []);
-  if (!isHydrated) return <></>;
+  if (loading) return <LoadingSkeleton />;
   if (!order) return <NotFound message="Order not found" />;
   return (
     <>
