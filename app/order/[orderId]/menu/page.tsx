@@ -17,6 +17,7 @@ import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import CartButton from "@/components/CartButton";
 import CartModal from "@/components/CartModal";
 import SearchInput from "@/components/SearchInput";
+import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 function Title({ createdAt, status }: { createdAt: number, status: ORDER_STATUS }) {
   return (
     <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
@@ -37,6 +38,7 @@ function Title({ createdAt, status }: { createdAt: number, status: ORDER_STATUS 
 }
 export default function Menu() {
   const [menu, setMenu] = useState<Record<MENU_CATEGORY, MENU_ITEM[]>>(MENU);
+  const [isLoading, setIsLoading] = useState(true);
   const [order, setOrder] = useState<Order | null>(null); 
   const [showCart, setShowCart] = useState(false);
   const query = useRef("");
@@ -44,7 +46,9 @@ export default function Menu() {
   useEffect(() => {
     fetchOrder(orderId as string).then((order) => {
       setOrder(order);
-    });
+    }).finally(() => {
+      setIsLoading(false);
+    })
   }, [orderId]);
   const handleCartButtonClick = () => {
     setShowCart(true);
@@ -94,6 +98,7 @@ export default function Menu() {
     }, {} as Record<MENU_CATEGORY, MENU_ITEM[]>);
     setMenu(filteredMenu);
   }
+  if (isLoading) return <LoadingSkeleton />
   if (!order) return <NotFound message="Order not found" />;
   return (
     <>
