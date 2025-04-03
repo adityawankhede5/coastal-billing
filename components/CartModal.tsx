@@ -6,10 +6,11 @@ import { useMemo } from "react";
 import QRCodeCard from "./QRCodeCard";
 import OrderStatusCard from "./OrderStatusCard";
 import CloseIcon from "@/assets/icons/Close.icon";
+import { sortBy } from "lodash";
 
 export default function CartModal({ order, onClose }: { order: Order, onClose: () => void }) {
   const cartItems = useMemo(() => {
-    return Object.keys(order.cart).map((key) => {
+    return sortBy(Object.keys(order.cart).map((key) => {
       const item = MENU_DICTIONARY[key as MENU_CATEGORY];
       return {
         id: key,
@@ -18,7 +19,7 @@ export default function CartModal({ order, onClose }: { order: Order, onClose: (
         price: item.price,
         type: item.type,
       }
-    })
+    }), ['type', 'name'])
   }, [order.cart])
   return (
     <div className="box-border fixed top-0 left-0 w-screen h-screen bg-black/75 z-50" onClick={onClose}>

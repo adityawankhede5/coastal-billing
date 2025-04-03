@@ -5,6 +5,7 @@ import MorningIcon from "@/assets/icons/Morning.icon";
 import ComboIcon from "@/assets/icons/Combo.icon";
 import SandwichIcon from "@/assets/icons/Sandwich.icon";
 import { sortBy } from "lodash";
+import FriesIcon from "@/assets/icons/Fries.icon";
 
 const SANDWICHES: Record<string, MENU_ITEM> = {
   "bifmcw": { "id": "bifmcw", "name": "Veg Grill", "description": "Onion, capsicum, tomato etc with chips", "price": 55, "type": MENU_CATEGORY.SANDWICH },
@@ -49,17 +50,23 @@ const TRIPLE_LAYERED_MEALS: Record<string, MENU_ITEM> = {
   "lkjpoi": { "id": "lkjpoi", "name": "Ultimate Corn & Cocoa", "description": "Cheese Corn Paneer + Chocolate Sandwich + Fries + Cold Coffee + Hot Chocolate", "price": 299, "type": MENU_CATEGORY.TRIPLE_LAYERED_MEAL }
 }
 
+const SIDES: Record<string, MENU_ITEM> = {
+  "yutrgh": { "id": "yutrgh", "name": "Fries", "description": "Crispy fries", "price": 55, "type": MENU_CATEGORY.SIDES },
+}
+
 export type Menu = Record<MENU_CATEGORY, MENU_ITEM[]>;
 export enum CATEGORY {
   SANDWICH = "Sandwiches",
+  SIDES = "Sides",
   BEVERAGE = "Beverages",
-  GOOD_MORNING = "Good Morning",
   COMBO = "Combos",
   TRIPLE_LAYERED_MEAL = "Triple Layered Meals",
+  GOOD_MORNING = "Good Morning",
 }
 
 const MENU: Menu = {
   SANDWICH: sortBy(Object.values(SANDWICHES), "name"),
+  SIDES: sortBy(Object.values(SIDES), "name"),
   BEVERAGE: sortBy(Object.values(BEVERAGES), "name"),
   TRIPLE_LAYERED_MEAL: sortBy(Object.values(TRIPLE_LAYERED_MEALS), "name"),
   COMBO: sortBy(Object.values(COMBOS), "name"),
@@ -70,6 +77,7 @@ export const MENU_ARRAY_SORTED = sortBy(MENU_ARRAY, "name");
 
 export const MENU_DICTIONARY: Record<string, MENU_ITEM> = {
   ...SANDWICHES,
+  ...SIDES,
   ...BEVERAGES,
   ...TRIPLE_LAYERED_MEALS,
   ...COMBOS,
@@ -78,6 +86,7 @@ export const MENU_DICTIONARY: Record<string, MENU_ITEM> = {
 
 export const MENU_CATEGORY_ICONS: Record<MENU_CATEGORY, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
   [MENU_CATEGORY.SANDWICH]: SandwichIcon,
+  [MENU_CATEGORY.SIDES]: FriesIcon,
   [MENU_CATEGORY.BEVERAGE]: BeverageIcon,
   [MENU_CATEGORY.GOOD_MORNING]: MorningIcon,
   [MENU_CATEGORY.COMBO]: ComboIcon,
