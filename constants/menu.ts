@@ -4,6 +4,7 @@ import BeverageIcon from "@/assets/icons/Beverage.icon";
 import MorningIcon from "@/assets/icons/Morning.icon";
 import ComboIcon from "@/assets/icons/Combo.icon";
 import SandwichIcon from "@/assets/icons/Sandwich.icon";
+import { sortBy } from "lodash";
 
 const SANDWICHES: Record<string, MENU_ITEM> = {
   "bifmcw": { "id": "bifmcw", "name": "Veg Grill", "description": "Onion, capsicum, tomato etc with chips", "price": 55, "type": MENU_CATEGORY.SANDWICH },
@@ -58,12 +59,14 @@ export enum CATEGORY {
 }
 
 const MENU: Menu = {
-  SANDWICH: Object.values(SANDWICHES),
-  BEVERAGE: Object.values(BEVERAGES),
-  TRIPLE_LAYERED_MEAL: Object.values(TRIPLE_LAYERED_MEALS),
-  COMBO: Object.values(COMBOS),
-  GOOD_MORNING: Object.values(GOODMORNINGS),
+  SANDWICH: sortBy(Object.values(SANDWICHES), "name"),
+  BEVERAGE: sortBy(Object.values(BEVERAGES), "name"),
+  TRIPLE_LAYERED_MEAL: sortBy(Object.values(TRIPLE_LAYERED_MEALS), "name"),
+  COMBO: sortBy(Object.values(COMBOS), "name"),
+  GOOD_MORNING: sortBy(Object.values(GOODMORNINGS), "name"),
 }
+export const MENU_ARRAY = Object.values(MENU).flat();
+export const MENU_ARRAY_SORTED = sortBy(MENU_ARRAY, "name");
 
 export const MENU_DICTIONARY: Record<string, MENU_ITEM> = {
   ...SANDWICHES,
