@@ -16,6 +16,7 @@ import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import CartButton from "@/components/CartButton";
 import CartModal from "@/components/CartModal";
+import SearchInput from "@/components/SearchInput";
 function Title({ createdAt, status }: { createdAt: number, status: ORDER_STATUS }) {
   return (
     <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
@@ -97,6 +98,9 @@ export default function Menu() {
   return (
     <>
       <Header title={<Title createdAt={order.createdAt} status={order.status} />} />
+      <div className="sticky top-12 py-2 z-10">
+        <SearchInput onSearch={handleSearch} />
+      </div>
       <div className="flex flex-col gap-2 pb-12">
         {Object.keys(menu).map((key) => (
           <div key={key}>
