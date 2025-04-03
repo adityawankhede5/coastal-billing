@@ -18,6 +18,7 @@ import CartButton from "@/components/CartButton";
 import CartModal from "@/components/CartModal";
 import SearchInput from "@/components/SearchInput";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
+import { toast } from "@/components/toast";
 function Title({ createdAt, status }: { createdAt: number, status: ORDER_STATUS }) {
   return (
     <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
@@ -56,6 +57,10 @@ export default function Menu() {
   }
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      toast("Can't update completed order");
+      return;
+    };
     const item = MENU_DICTIONARY[itemId];
     if (!item) return;
     if (quantity < 0) {
@@ -73,7 +78,11 @@ export default function Menu() {
     setOrder(newOrder);
   }
   const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
-    if (!orderId) return;
+    if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      toast("Can't update completed order");
+      return;
+    };
     try {
       const receivedAt = Date.now();
       await updateOrderPayment(orderId as string, method, receivedAt);
@@ -89,6 +98,9 @@ export default function Menu() {
   }
   const handleSaveCart = async () => {
     if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      return;
+    };
     try {
       const orderRef = doc(db, ORDERS_COLLECTION, order.id);
       await updateDoc(orderRef, {
