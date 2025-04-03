@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function AppLoadingSkeleton() {
   return (
-    <div className="flex flex-col gap-2 justify-center items-center h-full">
+    <div className="fixed top-0 left-0 w-screen h-screen flex flex-col gap-2 justify-center items-center">
       <div className="relative">
         <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-gray-700 animate-spin"></div>
         <Image src={logo} alt="logo" className="relative rounded-full animate-pulse" />
