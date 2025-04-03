@@ -110,7 +110,7 @@ export default function Menu() {
         {Object.keys(menu).map((key) => (
           <div key={key}>
             <div className="flex items-center my-2 gap-2 text-gray-500 font-bold text-lg">
-              <div>{CATEGORY[key as MENU_CATEGORY]}</div>
+              <div className="underline underline-offset-4 decoration-emerald-600 decoration-2">{CATEGORY[key as MENU_CATEGORY]}</div>
             </div>
             <div className="flex flex-col gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
