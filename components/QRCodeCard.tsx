@@ -1,4 +1,3 @@
-import RupeeIcon from "@/assets/icons/Rupee.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import { db } from "@/lib/firebase";
 import { ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
