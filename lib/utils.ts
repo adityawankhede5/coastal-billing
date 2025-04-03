@@ -1,11 +1,11 @@
-import { collection, doc, getDoc, query } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, query } from "firebase/firestore";
 
 import { getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { ORDERS_COLLECTION } from "@/constants/DB";
-import { Order } from "@/zustand/types";
+import { Order, ORDER_STATUS } from "@/zustand/types";
 import { serializeOrder } from "@/zustand/helper";
-
+import { CreateOrderResponse } from "./types";
 export const getOrders = async () => {
   const querySnapshot = await getDocs(query(collection(db, ORDERS_COLLECTION)));
   const orders = querySnapshot.docs.map((doc) => {
@@ -37,3 +37,20 @@ export const fetchOrder = async (orderId: string) => {
   const orderSnapshot = await getDoc(orderRef);
   return serializeOrder(orderSnapshot);
 }
+
+export const createOrder = async (): Promise<CreateOrderResponse> => {
+  const newOrder = {
+    createdAt: Date.now(),
+    name: "",
+    cart: {},
+    price: 0,
+    quantity: 0,
+    status: ORDER_STATUS.PENDING,
+  }
+  try {
+    const createdOrder = await addDoc(collection(db, ORDERS_COLLECTION), newOrder);
+    return { status: "success", orderId: createdOrder.id };
+  } catch (error) {
+    return { status: "error", error: error };
+  }
+};
