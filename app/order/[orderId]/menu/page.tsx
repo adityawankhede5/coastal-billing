@@ -8,8 +8,8 @@ import { db } from "@/lib/firebase";
 import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
-import { Order, ORDER_STATUS } from "@/zustand/types";
-import { fetchOrder } from "@/lib/utils";
+import { Order, ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
+import { fetchOrder, updateOrderPayment } from "@/lib/utils";
 import Header from "@/components/Header/Header";
 import HydrationSafeDate from "@/components/HydrationSafeDate";
 import ClockIcon from "@/assets/icons/Clock.icon";
@@ -18,6 +18,7 @@ import CartButton from "@/components/CartButton";
 import CartModal from "@/components/CartModal";
 import SearchInput from "@/components/SearchInput";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
+import { toast } from "@/components/toast";
 function Title({ createdAt, status }: { createdAt: number, status: ORDER_STATUS }) {
   return (
     <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
@@ -56,6 +57,10 @@ export default function Menu() {
   }
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      toast("Can't update completed order");
+      return;
+    };
     const item = MENU_DICTIONARY[itemId];
     if (!item) return;
     if (quantity < 0) {
@@ -72,8 +77,30 @@ export default function Menu() {
     const newOrder = { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity }
     setOrder(newOrder);
   }
+  const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
+    if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      toast("Can't update completed order");
+      return;
+    };
+    try {
+      const receivedAt = Date.now();
+      await updateOrderPayment(orderId as string, method, receivedAt);
+      setOrder((prev) => {
+        if (!prev) return prev;
+        prev.status = ORDER_STATUS.COMPLETE;
+        prev.payment = { method, receivedAt };
+        return { ...prev };
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const handleSaveCart = async () => {
     if (!order) return;
+    if (order.status === ORDER_STATUS.COMPLETE) {
+      return;
+    };
     try {
       const orderRef = doc(db, ORDERS_COLLECTION, order.id);
       await updateDoc(orderRef, {
@@ -110,7 +137,7 @@ export default function Menu() {
         {Object.keys(menu).map((key) => (
           <div key={key}>
             <div className="flex items-center my-2 gap-2 text-gray-500 font-bold text-lg">
-              <div>{CATEGORY[key as MENU_CATEGORY]}</div>
+              <div className="underline underline-offset-4 decoration-emerald-600 decoration-2">{CATEGORY[key as MENU_CATEGORY]}</div>
             </div>
             <div className="flex flex-col gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
@@ -126,7 +153,7 @@ export default function Menu() {
         </div> */}
         <CartButton onClick={handleCartButtonClick} />
       </div>
-      {showCart && <CartModal order={order} onClose={() => setShowCart(false)} />}
+      {showCart && <CartModal order={order} onClose={() => setShowCart(false)} handlePaymentMethodClick={handlePaymentMethodClick} />}
     </>
   );
 }

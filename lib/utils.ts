@@ -1,9 +1,9 @@
-import { addDoc, collection, doc, getDoc, query } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, orderBy, query, updateDoc } from "firebase/firestore";
 
 import { getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import { ORDERS_COLLECTION } from "@/constants/DB";
-import { Order, ORDER_STATUS } from "@/zustand/types";
+import { Order, ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
 import { serializeOrder } from "@/zustand/helper";
 import { CreateOrderResponse } from "./types";
 export const getOrders = async () => {
@@ -26,7 +26,8 @@ export const getOrders = async () => {
 
 export const fetchOrders = async () => {
   const ordersRef = collection(db, ORDERS_COLLECTION);
-  const ordersSnapshot = await getDocs(ordersRef);
+  const q = query(ordersRef, orderBy("createdAt", "desc"));
+  const ordersSnapshot = await getDocs(q);
   const orders = ordersSnapshot.docs.map(serializeOrder);
   return orders;
 }
@@ -54,3 +55,14 @@ export const createOrder = async (): Promise<CreateOrderResponse> => {
     return { status: "error", error: error };
   }
 };
+
+export const updateOrderPayment = async (orderId: string, method: PAYMENT_METHOD, receivedAt: number) => {
+  const orderRef = doc(db, ORDERS_COLLECTION, orderId);
+  await updateDoc(orderRef, {
+    status: ORDER_STATUS.COMPLETE,
+    payment: {
+      method: method,
+      receivedAt: receivedAt,
+    }
+  });
+}
