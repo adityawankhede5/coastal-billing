@@ -22,7 +22,7 @@ export default function OrderCard({ order }: { order: Order }) {
           <div className="flex items-center space-x-2">
             <PackageIcon className="w-5 h-5 text-indigo-600" />
             <span className="text-sm font-medium text-gray-500">Order #</span>
-            <span className="font-bold text-gray-900">{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
+            {/* <span className="font-bold text-gray-900">{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</span> */}
           </div>
           <div className="flex items-center">
             {order.status === 'pending' ? (

@@ -75,7 +75,7 @@ export default function Header() {
           <div className="flex gap-2 items-center">
             <div className="flex items-center space-x-1">
               <span className="text-sm font-medium text-gray-500">#</span>
-              <span className="font-bold text-gray-900">{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
+              {/* <span className="font-bold text-gray-900">{order.createdAt.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })}</span> */}
               {order.status === 'pending' ? (
                 <div className="flex items-center text-amber-600">
                   <ClockIcon className="w-4 h-4 mr-1" />
