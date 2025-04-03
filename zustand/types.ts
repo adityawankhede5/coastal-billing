@@ -14,11 +14,11 @@ export type Order = {
   cart: Record<string, number>;
   price: number;
   quantity: number;
-  createdAt: Date;
+  createdAt: number;
   status: ORDER_STATUS;
   payment?: {
     method: PAYMENT_METHOD;
-    receivedAt: Date;
+    receivedAt: number;
   };
 };
 

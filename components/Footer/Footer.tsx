@@ -26,7 +26,7 @@ export default function Footer() {
   const handleNewOrder = async () => {
     const countSnapshot = await getCountFromServer(collection(db, ORDERS_COLLECTION));
     const newOrder = {
-      createdAt: new Date(),
+      createdAt: Date.now(),
       number: countSnapshot.data().count + 1,
       name: "",
       cart: {},
