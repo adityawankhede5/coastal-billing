@@ -3,12 +3,15 @@ import { createOrder } from "@/lib/utils";
 import { ROUTES } from "@/constants/routes";
 import { getRoute } from "@/constants/routes";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/toast";
 export default function NewOrderButton() {
   const router = useRouter();
   const handleNewOrder = async () => {
     const response = await createOrder();
     if (response.status === "success" && response.orderId) {
       router.push(getRoute(response.orderId, ROUTES.MENU));
+    } else {
+      toast("Failed to create order");
     }
   }
   return (

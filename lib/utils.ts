@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, query, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, orderBy, query, updateDoc } from "firebase/firestore";
 
 import { getDocs } from "firebase/firestore";
 import { db } from "./firebase";
@@ -26,7 +26,8 @@ export const getOrders = async () => {
 
 export const fetchOrders = async () => {
   const ordersRef = collection(db, ORDERS_COLLECTION);
-  const ordersSnapshot = await getDocs(ordersRef);
+  const q = query(ordersRef, orderBy("createdAt", "desc"));
+  const ordersSnapshot = await getDocs(q);
   const orders = ordersSnapshot.docs.map(serializeOrder);
   return orders;
 }
