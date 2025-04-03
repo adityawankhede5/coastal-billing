@@ -8,7 +8,7 @@ import MenuItemCard from "@/components/MenuItemCard";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import { Order } from "@/zustand/types";
-import { fetchOrder } from "@/zustand/helper";
+import { fetchOrder } from "@/lib/utils";
 export default function Cart() {
   const [order, setOrder] = useState<Order | null>(null);
   const { orderId } = useParams();
