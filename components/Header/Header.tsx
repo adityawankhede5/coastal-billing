@@ -14,8 +14,8 @@ import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import { Order } from "@/zustand/types";
-import { fetchOrder } from "@/zustand/helper";
 import HydrationSafeDate from "../HydrationSafeDate";
+import { fetchOrder } from "@/lib/utils";
 enum PAGE {
   ORDERS = "orders",
   MENU = "menu",

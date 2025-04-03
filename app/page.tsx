@@ -2,7 +2,7 @@
 import OrdersList from "@/components/OrdersList";
 import { useEffect, useState } from "react";
 import { Order } from "@/zustand/types";
-import { fetchOrders } from "@/zustand/helper";
+import { fetchOrders } from "@/lib/utils";
 export default function Home() {
   const [orders, setOrders] = useState<Order[]>([]);
   useEffect(() => {

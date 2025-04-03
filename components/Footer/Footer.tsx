@@ -11,7 +11,7 @@ import PlusIcon from "@/assets/icons/Plus.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import { useEffect } from "react";
 import { useState } from "react";
-import { fetchOrder } from "@/zustand/helper";
+import { fetchOrder } from "@/lib/utils";
 export default function Footer() {
   const { orderId } = useParams();
   const { appendOrder } = useOrdersStore();
