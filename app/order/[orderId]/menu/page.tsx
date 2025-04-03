@@ -8,8 +8,8 @@ import { db } from "@/lib/firebase";
 import { useEffect, useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
-import { Order, ORDER_STATUS } from "@/zustand/types";
-import { fetchOrder } from "@/lib/utils";
+import { Order, ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
+import { fetchOrder, updateOrderPayment } from "@/lib/utils";
 import Header from "@/components/Header/Header";
 import HydrationSafeDate from "@/components/HydrationSafeDate";
 import ClockIcon from "@/assets/icons/Clock.icon";
@@ -72,6 +72,21 @@ export default function Menu() {
     const newOrder = { ...order, cart: newCart, price: newTotalPrice, quantity: newQuantity }
     setOrder(newOrder);
   }
+  const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
+    if (!orderId) return;
+    try {
+      const receivedAt = Date.now();
+      await updateOrderPayment(orderId as string, method, receivedAt);
+      setOrder((prev) => {
+        if (!prev) return prev;
+        prev.status = ORDER_STATUS.COMPLETE;
+        prev.payment = { method, receivedAt };
+        return { ...prev };
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const handleSaveCart = async () => {
     if (!order) return;
     try {
@@ -126,7 +141,7 @@ export default function Menu() {
         </div> */}
         <CartButton onClick={handleCartButtonClick} />
       </div>
-      {showCart && <CartModal order={order} onClose={() => setShowCart(false)} />}
+      {showCart && <CartModal order={order} onClose={() => setShowCart(false)} handlePaymentMethodClick={handlePaymentMethodClick} />}
     </>
   );
 }

@@ -1,14 +1,14 @@
 import CartIcon from "@/assets/icons/CartIcon";
 import { MENU_CATEGORY_ICONS, MENU_DICTIONARY } from "@/constants/menu";
 import { MENU_CATEGORY } from "@/constants/types";
-import { Order } from "@/zustand/types";
+import { Order, PAYMENT_METHOD } from "@/zustand/types";
 import { useMemo } from "react";
 import QRCodeCard from "./QRCodeCard";
 import OrderStatusCard from "./OrderStatusCard";
 import CloseIcon from "@/assets/icons/Close.icon";
 import { sortBy } from "lodash";
 
-export default function CartModal({ order, onClose }: { order: Order, onClose: () => void }) {
+export default function CartModal({ order, onClose, handlePaymentMethodClick }: { order: Order, onClose: () => void, handlePaymentMethodClick: (method: PAYMENT_METHOD) => void }) {
   const cartItems = useMemo(() => {
     return sortBy(Object.keys(order.cart).map((key) => {
       const item = MENU_DICTIONARY[key as MENU_CATEGORY];
@@ -54,7 +54,7 @@ export default function CartModal({ order, onClose }: { order: Order, onClose: (
         </main>
 
         <main className="mt-2 flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded-xl">
-          <QRCodeCard amount={order.price} orderId={order.id} />
+          <QRCodeCard amount={order.price} handlePaymentMethodClick={handlePaymentMethodClick} />
         </main>
       </div>
     </div>
