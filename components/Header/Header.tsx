@@ -1,7 +1,6 @@
-import PackageIcon from "@/assets/icons/Package.icon";
 import { useRef, useEffect } from "react";
 const maxScroll = 112 + 96;
-export default function Header({ title }: { title: string }) {
+export default function Header({ title }: { title: React.ReactNode }) {
   const bottomOffsetRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -15,9 +14,11 @@ export default function Header({ title }: { title: string }) {
         if (parentElement) {
           if (offset <= 1) {
             parentElement.classList.add('bg-white');
+            parentElement.classList.add('shadow-md');
           } else {
             parentElement.style.transition = 'none';
             parentElement.classList.remove('bg-white');
+            parentElement.classList.remove('shadow-md');
             parentElement.style.transition = '';
           }
         }
@@ -31,13 +32,12 @@ export default function Header({ title }: { title: string }) {
   return (
     <>
       <div className="h-24"></div>
-      <div className="sticky top-0 h-12 -mx-4 flex items-center justify-center text-2xl font-bold bg-gray-100 transition-[left,transform] duration-300">
+      <div className="sticky top-0 h-12 -mx-4 flex items-center justify-center text-2xl font-bold bg-gray-100 transition-[left,transform] duration-300 z-10">
         <div ref={titleRef} style={{
           left: '50%',
           transform: 'translateX(-50%)'
         }} className="absolute h-full flex items-center px-4">
-          <PackageIcon className="w-7 h-7" />
-          <span className="ml-2">{title}</span>
+          {title}
         </div>
 
       </div>

@@ -5,6 +5,15 @@ import { Order } from "@/zustand/types";
 import { fetchOrders } from "@/lib/utils";
 import NewOrderButton from "@/components/NewOrderButton";
 import Header from "@/components/Header/Header";
+import PackageIcon from "@/assets/icons/Package.icon";
+function Title() {
+  return (
+    <>
+      <PackageIcon className="w-7 h-7" />
+      <span className="ml-2">Orders</span>
+    </>
+  )
+}
 export default function Home() {
   const [orders, setOrders] = useState<Order[]>([]);
   useEffect(() => {
@@ -15,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-      <Header title="Orders" />
+      <Header title={<Title />} />
       <div className="grid grid-cols-1 gap-4">
         <OrdersList orders={orders} />
       </div>
