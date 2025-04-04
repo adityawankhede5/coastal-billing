@@ -58,8 +58,7 @@ export default function Menu() {
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     if (!order) return;
     if (order.status === ORDER_STATUS.COMPLETE) {
-      toast("Can't update completed order");
-      return;
+      toast("Updating completed order");
     };
     const item = MENU_DICTIONARY[itemId];
     if (!item) return;
@@ -80,8 +79,7 @@ export default function Menu() {
   const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
     if (!order) return;
     if (order.status === ORDER_STATUS.COMPLETE) {
-      toast("Can't update completed order");
-      return;
+      toast("Updating completed order");
     };
     try {
       const receivedAt = Date.now();
@@ -139,7 +137,7 @@ export default function Menu() {
             <div className="flex items-center my-2 gap-2 text-gray-500 font-bold text-lg">
               <div className="underline underline-offset-4 decoration-emerald-600 decoration-2">{CATEGORY[key as MENU_CATEGORY]}</div>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-2 gap-2">
             {menu[key as MENU_CATEGORY].map((item) => (
               <MenuItemCard key={item.id} item={item} quantity={order.cart[item.id] || 0} query={query.current} handleUpdateCart={handleUpdateCart} />
             ))}
@@ -147,10 +145,6 @@ export default function Menu() {
           </div>
         ))}
         <div className="text-md font-bold p-2 text-center text-neutral-400 ">End of list</div>
-        {/* <div className="flex justify-end items-center gap-2 absolute left-0 right-0 bottom-10 py-1 px-2">
-          <SearchInput onSearch={handleSearch} />
-          <button className="button button-primary" onClick={handleSaveCart}>Save</button>
-        </div> */}
         <CartButton onClick={handleCartButtonClick} />
       </div>
       {showCart && <CartModal order={order} onClose={() => setShowCart(false)} handlePaymentMethodClick={handlePaymentMethodClick} />}
