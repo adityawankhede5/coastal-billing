@@ -58,8 +58,7 @@ export default function Menu() {
   const handleUpdateCart = (itemId: string, quantity: number = 1) => {
     if (!order) return;
     if (order.status === ORDER_STATUS.COMPLETE) {
-      toast("Can't update completed order");
-      return;
+      toast("Updating completed order");
     };
     const item = MENU_DICTIONARY[itemId];
     if (!item) return;
@@ -80,8 +79,7 @@ export default function Menu() {
   const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
     if (!order) return;
     if (order.status === ORDER_STATUS.COMPLETE) {
-      toast("Can't update completed order");
-      return;
+      toast("Updating completed order");
     };
     try {
       const receivedAt = Date.now();
