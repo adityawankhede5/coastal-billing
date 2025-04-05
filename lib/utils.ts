@@ -19,6 +19,7 @@ export const getOrders = async () => {
       price: data.price,
       quantity: data.quantity,
       status: data.status,
+      payment: data.payment,
     } as Order;
   });
   return orders;
