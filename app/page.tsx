@@ -8,6 +8,7 @@ import Header from "@/components/Header/Header";
 import PackageIcon from "@/assets/icons/Package.icon";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 import HydrationSafeDate from "@/components/HydrationSafeDate";
+import OrdersOverview from "@/components/OrdersOverview";
 function Title() {
   const [createdAt, setCreatedAt] = useState<number>(0);
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function Home() {
     <>
       <Header title={<Title />} />
       <div className="grid grid-cols-1 gap-4">
+        <OrdersOverview orders={orders} />
         <OrdersList orders={orders} />
       </div>
       <NewOrderButton />
