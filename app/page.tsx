@@ -1,30 +1,48 @@
-"use server"
+"use client"
 import OrdersList from "@/components/OrdersList";
-import { ORDERS_COLLECTION } from "@/constants/DB";
-import { db } from "@/lib/firebase";
+import { useEffect, useState } from "react";
 import { Order } from "@/zustand/types";
-import { collection } from "firebase/firestore";
-import { query } from "firebase/firestore";
-import { getDocs } from "firebase/firestore";
-export default async function Home() {
-  const querySnapshot = await getDocs(query(collection(db, ORDERS_COLLECTION)));
-  const orders = querySnapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      createdAt: data.createdAt.toDate(),
-      name: data.name,
-      number: data.number,
-      cart: data.cart,
-      price: data.price,
-      quantity: data.quantity,
-      status: data.status,
-    } as Order;
-  });
-  if (orders.length === 0) return <div className="flex justify-center items-center h-screen text-subheading">No orders yet</div>
+import { fetchOrders } from "@/lib/utils";
+import NewOrderButton from "@/components/NewOrderButton";
+import Header from "@/components/Header/Header";
+import PackageIcon from "@/assets/icons/Package.icon";
+import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
+import HydrationSafeDate from "@/components/HydrationSafeDate";
+function Title() {
+  const [createdAt, setCreatedAt] = useState<number>(0);
+  useEffect(() => {
+    setCreatedAt(Date.now());
+    const interval = setInterval(() => {
+      setCreatedAt(Date.now());
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   return (
-    <div className="flex flex-col gap-2">
-      <OrdersList orders={orders} />
+    <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
+      <PackageIcon className="w-7 h-7" />
+      <div className="">Orders</div>
+      <div className="text-2xl font-bold text-gray-400"><HydrationSafeDate milliseconds={createdAt} includeSeconds={true} /></div>
     </div>
+  )
+}
+export default function Home() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    fetchOrders().then((orders) => {
+      setOrders(orders);
+    }).finally(() => {
+      setIsLoading(false);
+    })
+  }, []);
+  if (isLoading) return <LoadingSkeleton />
+  return (
+    <>
+      <Header title={<Title />} />
+      <div className="grid grid-cols-1 gap-4">
+        <OrdersList orders={orders} />
+      </div>
+      <NewOrderButton />
+    </>
   );
 }

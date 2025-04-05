@@ -1,15 +1,10 @@
 "use client"
-import useOrdersStore from "@/zustand/store";
 import { Order } from "@/zustand/types";
-import { useEffect } from "react";
 import OrderCard from "./OrderCard";
+import NoOrdersYet from "./EmptyStates/NoOrdersYet";
 export default function OrdersList({ orders }: { orders: Order[] }) {
-  const { init } = useOrdersStore();
-  useEffect(() => {
-    setTimeout(() => {
-      init(orders);
-    }, 200);
-  }, [orders, init]);
+
+  if (orders.length === 0) return <NoOrdersYet />
   return (
     <div className="flex flex-col gap-2">
       {orders.map((order) => (

@@ -3,22 +3,30 @@ import CartIcon from "@/assets/icons/CartIcon";
 import MenuIcon from "@/assets/icons/MenuIcon";
 import { getRoute, ROUTES } from "@/constants/routes";
 import { useRouter, usePathname, useParams } from "next/navigation";
-import useOrdersStore, { useOrder } from "@/zustand/store";
+import useOrdersStore from "@/zustand/store";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, getCountFromServer } from "firebase/firestore";
-import { ORDER_STATUS } from "@/zustand/types";
+import { Order, ORDER_STATUS } from "@/zustand/types";
 import PlusIcon from "@/assets/icons/Plus.icon";
 import { ORDERS_COLLECTION } from "@/constants/DB";
+import { useEffect } from "react";
+import { useState } from "react";
+import { fetchOrder } from "@/lib/utils";
 export default function Footer() {
   const { orderId } = useParams();
   const { appendOrder } = useOrdersStore();
   const router = useRouter();
   const pathname = usePathname();
-  const order = useOrder(orderId as string);
+  const [order, setOrder] = useState<Order | null>(null);
+  useEffect(() => {
+    fetchOrder(orderId as string).then((order) => {
+      setOrder(order);
+    });
+  }, [orderId]);
   const handleNewOrder = async () => {
     const countSnapshot = await getCountFromServer(collection(db, ORDERS_COLLECTION));
     const newOrder = {
-      createdAt: new Date(),
+      createdAt: Date.now(),
       number: countSnapshot.data().count + 1,
       name: "",
       cart: {},

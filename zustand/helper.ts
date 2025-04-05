@@ -7,7 +7,7 @@ export const serializeOrder = (orderDoc: DocumentSnapshot<DocumentData>) => {
   if (!data) throw new Error("Order not found");
   return {
     id: orderDoc.id,
-    createdAt: data.createdAt.toDate(),
+    createdAt: data.createdAt,
     name: data.name,
     number: data.number,
     cart: data.cart,
