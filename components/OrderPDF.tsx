@@ -46,7 +46,7 @@ export default function OrderPDF({ order }: { order: Order }) {
   const receivedAt = order.payment?.receivedAt ? new Date(order.payment.receivedAt).toLocaleString('en-IN') : "N/A";
   return (
     <div ref={ref} className="p-4 w-96">
-      <header className="flex items-center justify-between flex-wrap">
+      <header className="flex flex-col items-center justify-between">
         <div className="flex flex-1 items-center gap-1 justify-between">
           <span className="text-base font-bold text-gray-700">Order Time</span>
           <span className="text-base text-right font-bold text-gray-500">{createdAt}</span>
