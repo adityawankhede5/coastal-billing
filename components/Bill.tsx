@@ -4,7 +4,7 @@ import { MENU_CATEGORY } from "@/constants/types";
 import { sortBy } from "lodash";
 import { useMemo } from "react";
 
-export default function Bill({ order }: { order: Order }) {
+export default function Bill({ order, detailed = false }: { order: Order, detailed?: boolean }) {
   const cartItems = useMemo(() => {
     return sortBy(Object.keys(order.cart).map((key) => {
       const item = MENU_DICTIONARY[key as MENU_CATEGORY];
@@ -19,7 +19,7 @@ export default function Bill({ order }: { order: Order }) {
   }, [order.cart])
   return (
     <main className="mt-2 flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded-xl">
-      <div className="flex flex-col gap-2 max-h-48 overflow-y-auto -mr-4 pr-4">
+      <div className={`flex flex-col gap-2 ${detailed ? '' : 'max-h-48 overflow-y-auto -mr-4 pr-4'}`}>
         {cartItems.map((item) => {
           const Icon = MENU_CATEGORY_ICONS[item.type];
           return (

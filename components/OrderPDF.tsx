@@ -42,18 +42,23 @@ export default function OrderPDF({ order }: { order: Order }) {
       });
     }
   }, [order.id]);
+  const orderTime = new Date(order.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
   const createdAt = new Date(order.createdAt).toLocaleString('en-IN');
-  const receivedAt = order.payment?.receivedAt ? new Date(order.payment.receivedAt).toLocaleString('en-IN') : null;
+  const receivedAt = order.payment?.receivedAt ? new Date(order.payment.receivedAt).toLocaleString('en-IN') : "N/A";
   return (
     <div ref={ref} className="p-4 w-96">
       <header className="flex items-center justify-between flex-wrap">
         <div className="flex flex-1 items-center gap-1 justify-between">
-          <span className="text-base font-bold text-gray-700">Invoice</span>
+          <span className="text-base font-bold text-gray-700">Order Time</span>
+          <span className="text-base text-right font-bold text-gray-500">{createdAt}</span>
+        </div>
+        <div className="flex flex-1 items-center gap-1 justify-between">
+          <span className="text-base font-bold text-gray-700">Order ID</span>
           <span className="text-base text-right font-bold text-gray-500">{order.id}</span>
         </div>
 
       </header>
-      <Bill order={order} />
+      <Bill order={order} detailed />
       <main className="mt-2 flex flex-col gap-2 p-4 border border-solid border-gray-200 rounded-xl">
         <div className="flex flex-col gap-2 max-h-48 overflow-y-auto -mr-4 pr-4">
           <div className="flex items-center gap-1 justify-between">
