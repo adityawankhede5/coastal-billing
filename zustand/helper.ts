@@ -14,5 +14,6 @@ export const serializeOrder = (orderDoc: DocumentSnapshot<DocumentData>) => {
     price: data.price,
     quantity: data.quantity,
     status: data.status,
+    payment: data.payment,
   } as Order;
 }

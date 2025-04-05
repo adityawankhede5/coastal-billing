@@ -3,18 +3,32 @@ import { getRoute } from "@/constants/routes";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
 import { Order } from "@/zustand/types";
-import { MENU_DICTIONARY } from "@/constants/menu";
 import { useState } from "react";
 import PackageIcon from "@/assets/icons/Package.icon";
 import ClockIcon from "@/assets/icons/Clock.icon";
 import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import ChevronUpIcon from "@/assets/icons/ChevronUp.icon";
 import ChevronDownIcon from "@/assets/icons/ChevronDown.icon";
-import { isEmpty } from "lodash";
 import HydrationSafeDate from "./HydrationSafeDate";
+import OrderPDF from "./OrderPDF";
+import ShareIcon from "@/assets/icons/Share.icon";
+import { createRoot } from "react-dom/client";
+import { isEmpty } from "lodash";
+import { MENU_DICTIONARY } from "@/constants/menu";
 export default function OrderCard({ order }: { order: Order }) {
-  // console.log(order);
   const [isExpanded, setIsExpanded] = useState(false);
+  const handleShareClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const container = document.createElement('div');
+    container.setAttribute('id', `order-pdf-${order.id}-container`);
+    document.body.appendChild(container);
+
+    container.style.position = 'absolute';
+    container.style.top = '-9999px';
+    container.style.left = '-9999px';
+    createRoot(container).render(<OrderPDF order={order} />);
+  }
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       {/* Header */}
@@ -52,11 +66,16 @@ export default function OrderCard({ order }: { order: Order }) {
               &#8377;{order.price.toFixed(2)}
             </span>
           </div>
+          <div className="flex items-center gap-2">
+            <span className="cursor-pointer" onClick={handleShareClick}>
+              <ShareIcon className="w-5 h-5 text-gray-400" />
+            </span>
           {isExpanded ? (
             <ChevronUpIcon className="w-5 h-5 text-gray-400" />
           ) : (
             <ChevronDownIcon className="w-5 h-5 text-gray-400" />
           )}
+          </div>
         </div>
 
         {/* Expandable Items Section */}
