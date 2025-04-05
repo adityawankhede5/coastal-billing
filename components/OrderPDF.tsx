@@ -42,7 +42,6 @@ export default function OrderPDF({ order }: { order: Order }) {
       });
     }
   }, [order.id]);
-  const orderTime = new Date(order.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
   const createdAt = new Date(order.createdAt).toLocaleString('en-IN');
   const receivedAt = order.payment?.receivedAt ? new Date(order.payment.receivedAt).toLocaleString('en-IN') : "N/A";
   return (

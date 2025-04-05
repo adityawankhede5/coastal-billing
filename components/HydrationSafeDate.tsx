@@ -10,7 +10,7 @@ export default function HydrationSafeDate({ milliseconds, includeSeconds = false
       localDate = _date.toLocaleString('en-IN');
     }
     setDate(localDate);
-  }, [milliseconds]);
+  }, [milliseconds, detailed, includeSeconds]);
   return (
     <>{date}</>
   )
