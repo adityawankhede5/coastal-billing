@@ -52,11 +52,11 @@ export default function SideNav() {
         <main className="flex flex-col gap-4">
           <div onClick={() => handleNavClick(NAV_ITEMS.TODAY)} className={`flex items-center gap-2 border-b border-gray-200 ${activeNav === NAV_ITEMS.TODAY ? "text-indigo-600" : ""}`}>
             <PackageIcon className="w-6 h-6" />
-            <h2 className="text-lg font-bold h-12 flex items-center">Today's Orders</h2>
+            <h2 className="text-lg font-bold h-12 flex items-center">{`Today's Orders`}</h2>
           </div>
           <div onClick={() => handleNavClick(NAV_ITEMS.ALL)} className={`flex items-center gap-2 border-b border-gray-200 ${activeNav === NAV_ITEMS.ALL ? "text-indigo-600" : ""}`}>
             <CalendarFoldIcon className="w-6 h-6" />
-            <h2 className="text-lg font-bold h-12 flex items-center">All Orders</h2>
+            <h2 className="text-lg font-bold h-12 flex items-center">{`All Orders`}</h2>
           </div>
         </main>
       </div>
