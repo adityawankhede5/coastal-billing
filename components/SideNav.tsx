@@ -40,7 +40,7 @@ export default function SideNav() {
   }
   if (!isOpen) return <></>;
   return (
-    <aside className="fixed top-0 left-0 z-20 w-full h-full bg-black/50" onClick={() => setIsOpen(false)}>
+    <aside className="fixed top-0 left-0 z-30 w-full h-full bg-black/50" onClick={() => setIsOpen(false)}>
       <div className="flex flex-col gap-2 w-3/4 h-full bg-white p-4" onClick={(e) => e.stopPropagation()}>
         <header className="flex items-center border-b border-gray-200 pb-4">
           <Image src={logo} alt="Coastal" className="w-10 h-10" />
