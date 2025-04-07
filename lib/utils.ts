@@ -25,6 +25,13 @@ export const getOrders = async () => {
   return orders;
 }
 
+export const fetchAllOrders = async () => {
+  const ordersRef = collection(db, ORDERS_COLLECTION);
+  const ordersSnapshot = await getDocs(query(ordersRef, orderBy("createdAt", "desc")));
+  const orders = ordersSnapshot.docs.map(serializeOrder);
+  return orders;
+}
+
 export const fetchOrders = async () => {
   const ordersRef = collection(db, ORDERS_COLLECTION);
 

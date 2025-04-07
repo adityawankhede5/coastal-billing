@@ -33,3 +33,8 @@ export type OrdersStore = {
   updateCart: (orderId: string, itemId: string, quantity: number) => void;
   clearCart: (orderId: string) => void;
 };
+
+export type SideNavStore = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+};

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Order, OrdersStore } from "./types";
+import { Order, OrdersStore, SideNavStore } from "./types";
 import { MENU_DICTIONARY } from "@/constants/menu";
 
 const useOrdersStore = create<OrdersStore>((set, get) => ({
@@ -48,6 +48,11 @@ const useOrdersStore = create<OrdersStore>((set, get) => ({
     const newOrder = { ...order, cart: {}, price: 0, quantity: 0 }
     return { orders: state.orders.map((order) => order.id === orderId ? newOrder : order) }
   })
+}));
+
+export const useSideNavStore = create<SideNavStore>((set, get) => ({
+  isOpen: false,
+  setIsOpen: (isOpen: boolean) => set({ isOpen }),
 }));
 
 export default useOrdersStore;
