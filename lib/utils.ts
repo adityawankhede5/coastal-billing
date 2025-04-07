@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, orderBy, query, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, orderBy, query, updateDoc, where } from "firebase/firestore";
 
 import { getDocs } from "firebase/firestore";
 import { db } from "./firebase";
@@ -25,9 +25,37 @@ export const getOrders = async () => {
   return orders;
 }
 
+export const fetchAllOrders = async () => {
+  const ordersRef = collection(db, ORDERS_COLLECTION);
+  const ordersSnapshot = await getDocs(query(ordersRef, orderBy("createdAt", "desc")));
+  const orders = ordersSnapshot.docs.map(serializeOrder);
+  return orders;
+}
+
 export const fetchOrders = async () => {
   const ordersRef = collection(db, ORDERS_COLLECTION);
-  const q = query(ordersRef, orderBy("createdAt", "desc"));
+
+  // Get current date and set time to 4am
+  const now = new Date();
+  const today4am = new Date(now);
+  today4am.setHours(4, 0, 0, 0);
+
+  // If current time is before 4am, use yesterday's 4am
+  if (now.getHours() < 4) {
+    today4am.setDate(today4am.getDate() - 1);
+  }
+
+  // Get tomorrow's 4am
+  const tomorrow4am = new Date(today4am);
+  tomorrow4am.setDate(tomorrow4am.getDate() + 1);
+
+  const q = query(
+    ordersRef,
+    orderBy("createdAt", "desc"),
+    where("createdAt", ">=", today4am.getTime()),
+    where("createdAt", "<", tomorrow4am.getTime())
+  );
+
   const ordersSnapshot = await getDocs(q);
   const orders = ordersSnapshot.docs.map(serializeOrder);
   return orders;

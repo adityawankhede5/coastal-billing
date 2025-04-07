@@ -127,7 +127,7 @@ export default function Menu() {
   if (!order) return <NotFound message="Order not found" />;
   return (
     <>
-      <Header title={<Title createdAt={order.createdAt} status={order.status} />} />
+      <Header title={<Title createdAt={order.createdAt} status={order.status} />} titleSmall="Order" />
       <div className="sticky top-12 py-2 z-10">
         <SearchInput onSearch={handleSearch} />
       </div>

@@ -5,7 +5,6 @@ import { Order } from "@/zustand/types";
 import { fetchOrders } from "@/lib/utils";
 import NewOrderButton from "@/components/NewOrderButton";
 import Header from "@/components/Header/Header";
-import PackageIcon from "@/assets/icons/Package.icon";
 import LoadingSkeleton from "@/components/Skeletons/LoadingSkeleton";
 import HydrationSafeDate from "@/components/HydrationSafeDate";
 import OrdersOverview from "@/components/OrdersOverview";
@@ -19,10 +18,9 @@ function Title() {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
-      <PackageIcon className="w-7 h-7" />
-      <div className="">Orders</div>
-      <div className="text-2xl font-bold text-gray-400"><HydrationSafeDate milliseconds={createdAt} includeSeconds={true} /></div>
+    <div className="flex flex-col items-center justify-center gap-2 flex-wrap">
+      <div className="text-4xl font-bold">Orders</div>
+      <div className="text-xl font-bold text-gray-400"><HydrationSafeDate milliseconds={createdAt} includeSeconds={true} /></div>
     </div>
   )
 }
@@ -39,7 +37,7 @@ export default function Home() {
   if (isLoading) return <LoadingSkeleton />
   return (
     <>
-      <Header title={<Title />} />
+      <Header title={<Title />} titleSmall="Orders" />
       <div className="grid grid-cols-1 gap-4">
         <OrdersOverview orders={orders} />
         <OrdersList orders={orders} />
