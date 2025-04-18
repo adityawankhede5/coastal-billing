@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <div className="box-border h-screen w-screen">
           <SideNav />
-          <main className="px-4 py-4">
+          <main className="h-full w-full px-4 py-4">
             {children}
           </main>
         </div>
