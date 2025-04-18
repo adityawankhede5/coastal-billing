@@ -44,7 +44,7 @@ export default function SideNav() {
       <div className="flex flex-col gap-2 w-3/4 h-full bg-white p-4" onClick={(e) => e.stopPropagation()}>
         <header className="flex items-center border-b border-gray-200 pb-4">
           <Image src={logo} alt="Coastal" className="w-10 h-10" />
-          <h1 className="text-2xl font-bold">Coastal</h1>
+          <h1 className="text-2xl font-bold">COASTAL</h1>
           <button className="ml-auto" onClick={() => setIsOpen(false)}>
             <CloseIcon className="w-6 h-6" />
           </button>
