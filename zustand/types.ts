@@ -1,7 +1,7 @@
 export enum ORDER_STATUS {
   PENDING = "pending",
   COMPLETE = "complete",
-  CANCELLED = "cancelled",
+  DELETED = "deleted",
 }
 export enum PAYMENT_METHOD {
   CASH = "cash",
@@ -20,6 +20,7 @@ export type Order = {
     method: PAYMENT_METHOD;
     receivedAt: number;
   };
+  deleted: boolean;
 };
 
 export type OrdersStore = {

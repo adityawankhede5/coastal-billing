@@ -18,6 +18,7 @@ import CartButton from "@/components/CartButton";
 import CartModal from "@/components/CartModal";
 import SearchInput from "@/components/SearchInput";
 import { toast } from "@/components/toast";
+import OrderSettingsDropdown from "@/components/OrderSettingsDropdown";
 function Title({
   createdAt,
   status,
@@ -131,6 +132,7 @@ export default function Menu({ _order }: { _order: Order | null }) {
       <Header
         title={<Title createdAt={order.createdAt} status={order.status} />}
         titleSmall="Order"
+        action={<OrderSettingsDropdown />}
       />
       <div className="sticky top-12 py-2 z-10">
         <SearchInput onSearch={handleSearch} />
