@@ -2,11 +2,9 @@
 import { getRoute } from "@/constants/routes";
 import { ROUTES } from "@/constants/routes";
 import Link from "next/link";
-import { Order } from "@/zustand/types";
+import { Order, ORDER_STATUS } from "@/zustand/types";
 import { useState } from "react";
 import PackageIcon from "@/assets/icons/Package.icon";
-import ClockIcon from "@/assets/icons/Clock.icon";
-import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import ChevronUpIcon from "@/assets/icons/ChevronUp.icon";
 import ChevronDownIcon from "@/assets/icons/ChevronDown.icon";
 import HydrationSafeDate from "./HydrationSafeDate";
@@ -15,6 +13,8 @@ import ShareIcon from "@/assets/icons/Share.icon";
 import { createRoot } from "react-dom/client";
 import { isEmpty } from "lodash";
 import { MENU_DICTIONARY } from "@/constants/menu";
+import OrderStatusCard from "./OrderStatusCard";
+import PaymentMethodCard from "./PaymentMethodCard";
 export default function OrderCard({ order }: { order: Order }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const handleShareClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,18 +39,9 @@ export default function OrderCard({ order }: { order: Order }) {
             <span className="text-sm font-medium text-gray-500">Order #</span>
             <span className="font-bold text-gray-900"><HydrationSafeDate milliseconds={order.createdAt} /></span>
           </div>
-          <div className="flex items-center">
-            {order.status === 'pending' ? (
-              <div className="flex items-center text-amber-600">
-                <ClockIcon className="w-4 h-4 mr-1" />
-                <span className="text-sm font-medium">Pending</span>
-              </div>
-            ) : (
-              <div className="flex items-center text-emerald-600">
-                <CheckCircleIcon className="w-4 h-4 mr-1" />
-                <span className="text-sm font-medium">Complete</span>
-              </div>
-            )}
+          <div className="flex items-center gap-2">
+            <OrderStatusCard status={order.status} />
+            {order.status === ORDER_STATUS.COMPLETE && order.payment?.method && <PaymentMethodCard method={order.payment.method} textOnly />}
           </div>
         </div>
       </Link>
