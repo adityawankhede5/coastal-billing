@@ -19,12 +19,15 @@ import CartModal from "@/components/CartModal";
 import SearchInput from "@/components/SearchInput";
 import { toast } from "@/components/toast";
 import OrderSettingsDropdown from "@/components/OrderSettingsDropdown";
+import PaymentMethodCard from "@/components/PaymentMethodCard";
 function Title({
   createdAt,
   status,
+  payment,
 }: {
   createdAt: number;
   status: ORDER_STATUS;
+    payment?: PAYMENT_METHOD;
 }) {
   return (
     <div className="flex flex-row items-center justify-center gap-2 flex-wrap">
@@ -38,6 +41,11 @@ function Title({
       <div className="text-2xl font-bold text-gray-400">
         <HydrationSafeDate milliseconds={createdAt} />
       </div>
+      {payment &&
+        <div className="flex justify-center items-center gap-2 flex-1 basis-full">
+          <PaymentMethodCard method={payment} className="scale-150" />
+        </div>
+      }
     </div>
   );
 }
@@ -130,7 +138,7 @@ export default function Menu({ _order }: { _order: Order | null }) {
   return (
     <>
       <Header
-        title={<Title createdAt={order.createdAt} status={order.status} />}
+        title={<Title createdAt={order.createdAt} status={order.status} payment={order.payment?.method} />}
         titleSmall="Order"
         action={<OrderSettingsDropdown />}
       />
