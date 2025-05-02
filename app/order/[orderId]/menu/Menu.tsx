@@ -1,7 +1,7 @@
 "use client";
 import MENU, { CATEGORY, MENU_DICTIONARY } from "@/constants/menu";
 import { MENU_CATEGORY, MENU_ITEM } from "@/constants/types";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -20,6 +20,7 @@ import SearchInput from "@/components/SearchInput";
 import { toast } from "@/components/toast";
 import OrderSettingsDropdown from "@/components/OrderSettingsDropdown";
 import PaymentMethodCard from "@/components/PaymentMethodCard";
+import { ROUTES } from "@/constants/routes";
 function Title({
   createdAt,
   status,
@@ -54,6 +55,7 @@ export default function Menu({ _order }: { _order: Order | null }) {
   const [order, setOrder] = useState<Order | null>(_order || null);
   const [showCart, setShowCart] = useState(false);
   const query = useRef("");
+  const router = useRouter();
   const { orderId } = useParams();
   const handleCartButtonClick = () => {
     setShowCart(true);
@@ -87,9 +89,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
   };
   const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
     if (!order) return;
-    if (order.status === ORDER_STATUS.COMPLETE) {
-      toast("Updating completed order");
-    }
     try {
       const receivedAt = Date.now();
       await updateOrderPayment(orderId as string, method, receivedAt);
@@ -99,6 +98,10 @@ export default function Menu({ _order }: { _order: Order | null }) {
         prev.payment = { method, receivedAt };
         return { ...prev };
       });
+      toast("Order complete", "success");
+      setTimeout(() => {
+        router.push(ROUTES.ORDERS);
+      }, 500);
     } catch (error) {
       console.error(error);
     }
