@@ -19,7 +19,7 @@ function Title() {
   }, []);
   return (
     <div className="flex flex-col items-center justify-center gap-2 flex-wrap">
-      <div className="text-4xl font-bold">Orders</div>
+      <div className="text-4xl font-bold">Today's Orders</div>
       <div className="text-xl font-bold text-gray-400"><HydrationSafeDate milliseconds={createdAt} includeSeconds={true} /></div>
     </div>
   )
