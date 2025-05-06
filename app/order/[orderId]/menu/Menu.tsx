@@ -108,9 +108,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
   };
   const handleSaveCart = async () => {
     if (!order) return;
-    if (order.status === ORDER_STATUS.COMPLETE) {
-      return;
-    }
     try {
       const orderRef = doc(db, ORDERS_COLLECTION, order.id);
       await updateDoc(orderRef, {
