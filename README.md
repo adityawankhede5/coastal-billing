@@ -2,7 +2,7 @@
 
 ## TODOs
 
-- On order completion show a popup and then redirect to homepage.
+- On order completion show a popup and then redirect to homepage. - DONE
 - Note/Instruction in Cart page e.g. Partial payments, cooking instructions.
 - Numbering for orders.
 - Inventory page.
