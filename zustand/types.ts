@@ -20,6 +20,10 @@ export type Order = {
   payment?: {
     method: PAYMENT_METHOD;
     receivedAt: number;
+    splitAmount?: {
+      cash: number;
+      online: number;
+    };
   };
   deleted: boolean;
 };

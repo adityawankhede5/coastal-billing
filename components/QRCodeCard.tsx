@@ -22,7 +22,7 @@ export default function QRCodeCard({ amount, handlePaymentMethodClick }: { amoun
       </div>
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-sm text-gray-400 font-bold">Received via</div>
-        <PaymentMethod handleSubmit={handlePaymentMethodClick} amount={amount} />
+        <PaymentMethod amount={amount} />
       </div>
     </>
   )
