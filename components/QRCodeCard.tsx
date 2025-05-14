@@ -1,4 +1,3 @@
-import { PAYMENT_METHOD } from "@/zustand/types";
 import QRCode from "react-qr-code";
 import PaymentMethod from "./PaymentMehtod";
 

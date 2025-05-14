@@ -1,5 +1,5 @@
 import CartIcon from "@/assets/icons/CartIcon";
-import { Order, ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
+import { Order, ORDER_STATUS } from "@/zustand/types";
 import QRCodeCard from "./QRCodeCard";
 import OrderStatusCard from "./OrderStatusCard";
 import CloseIcon from "@/assets/icons/Close.icon";

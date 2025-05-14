@@ -3,7 +3,7 @@ import QRIcon from "@/assets/icons/QR.icon";
 import SplitIcon from "@/assets/icons/Split.icon";
 import { PAYMENT_METHOD } from "@/zustand/types";
 
-export default function PaymentMethodCard({ method, iconOnly = false, textOnly = false, detailed = false, className = "", amount = { cash: 0, online: 0 } }: { method: PAYMENT_METHOD, iconOnly?: boolean, textOnly?: boolean, detailed?: boolean, className?: string, amount?: { cash: number, online: number } }) {
+export default function PaymentMethodCard({ method, iconOnly = false, textOnly = false, className = "" }: { method: PAYMENT_METHOD, iconOnly?: boolean, textOnly?: boolean, className?: string }) {
   if (iconOnly) {
     return (
       <div className={`flex items-center gap-1 ${className}`}>

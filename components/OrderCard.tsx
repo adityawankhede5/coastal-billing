@@ -14,7 +14,6 @@ import { createRoot } from "react-dom/client";
 import { isEmpty } from "lodash";
 import { MENU_DICTIONARY } from "@/constants/menu";
 import OrderStatusCard from "./OrderStatusCard";
-import PaymentMethodCard from "./PaymentMethodCard";
 import PaymentDetailsCard from "./PaymentDetailsCard";
 export default function OrderCard({ order }: { order: Order }) {
   const [isExpanded, setIsExpanded] = useState(false);
