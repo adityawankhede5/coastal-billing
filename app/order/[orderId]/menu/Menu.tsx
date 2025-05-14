@@ -87,25 +87,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
     };
     setOrder(newOrder);
   };
-  const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
-    if (!order) return;
-    try {
-      const receivedAt = Date.now();
-      await updateOrderPayment(orderId as string, method, receivedAt);
-      setOrder((prev) => {
-        if (!prev) return prev;
-        prev.status = ORDER_STATUS.COMPLETE;
-        prev.payment = { method, receivedAt };
-        return { ...prev };
-      });
-      toast("Order complete", "success");
-      setTimeout(() => {
-        router.push(ROUTES.ORDERS);
-      }, 500);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const handleSaveCart = async () => {
     if (!order) return;
     try {
@@ -175,7 +156,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
         <CartModal
           order={order}
           onClose={() => setShowCart(false)}
-          handlePaymentMethodClick={handlePaymentMethodClick}
         />
       )}
     </>

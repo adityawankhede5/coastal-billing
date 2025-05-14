@@ -5,7 +5,7 @@ import PaymentMethod from "./PaymentMehtod";
 const UPI_ID = "Q156327102@ybl";
 const NAME = "PhonePeMerchant";
 const DISPLAY_NAME = "MR KUBER NITIN PATIL";
-export default function QRCodeCard({ amount, handlePaymentMethodClick }: { amount: number, handlePaymentMethodClick: (method: PAYMENT_METHOD) => void }) {
+export default function QRCodeCard({ amount }: { amount: number }) {
   let value = `upi://pay?pa=${UPI_ID}&pn=${NAME}&mc=0000&mode=02&purpose=00&cu=INR&tn=Coastal%20Cafe`;
   if (amount > 0) {
     value += `&am=${amount}`;
