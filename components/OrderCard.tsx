@@ -15,6 +15,7 @@ import { isEmpty } from "lodash";
 import { MENU_DICTIONARY } from "@/constants/menu";
 import OrderStatusCard from "./OrderStatusCard";
 import PaymentMethodCard from "./PaymentMethodCard";
+import PaymentDetailsCard from "./PaymentDetailsCard";
 export default function OrderCard({ order }: { order: Order }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const handleShareClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,7 +42,7 @@ export default function OrderCard({ order }: { order: Order }) {
           </div>
           <div className="flex items-center gap-2">
             <OrderStatusCard status={order.status} />
-            {order.status === ORDER_STATUS.COMPLETE && order.payment?.method && <PaymentMethodCard method={order.payment.method} textOnly />}
+            {order.status === ORDER_STATUS.COMPLETE && <PaymentDetailsCard order={order} className="flex-col pl-2 border-l border-gray-200" />}
           </div>
         </div>
       </Link>
