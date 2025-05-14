@@ -30,6 +30,10 @@ export default function OrdersOverview({ orders }: { orders: Order[] }) {
       online: {
         count: 0,
         totalPrice: 0
+      },
+      split: {
+        count: 0,
+        totalPrice: 0
       }
     }
     const pendingOverview = {
@@ -50,6 +54,11 @@ export default function OrdersOverview({ orders }: { orders: Order[] }) {
         } else if (order.payment?.method === PAYMENT_METHOD.ONLINE) {
           completeOverview.online.count++;
           completeOverview.online.totalPrice += order.price;
+        } else if (order.payment?.method === PAYMENT_METHOD.SPLIT) {
+          completeOverview.split.count++;
+          completeOverview.split.totalPrice += order.price;
+          completeOverview.cash.totalPrice += order.payment.splitAmount?.cash || 0;
+          completeOverview.online.totalPrice += order.payment.splitAmount?.online || 0;
         }
       } else if (order.status === ORDER_STATUS.PENDING) {
         pendingOverview.count++;
