@@ -6,6 +6,7 @@ export enum ORDER_STATUS {
 export enum PAYMENT_METHOD {
   CASH = "cash",
   ONLINE = "online",
+  SPLIT = "split",
 }
 export type Order = {
   id: string;

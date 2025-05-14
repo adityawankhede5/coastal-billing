@@ -1,5 +1,6 @@
 import { PAYMENT_METHOD } from "@/zustand/types";
 import QRCode from "react-qr-code";
+import PaymentMethod from "./PaymentMehtod";
 
 const UPI_ID = "Q156327102@ybl";
 const NAME = "PhonePeMerchant";
@@ -21,10 +22,7 @@ export default function QRCodeCard({ amount, handlePaymentMethodClick }: { amoun
       </div>
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-sm text-gray-400 font-bold">Received via</div>
-        <div className="flex gap-2 w-full">
-          <div className="w-full flex-1 button-ghost text-sm text-gray-500 text-center" onClick={() => handlePaymentMethodClick(PAYMENT_METHOD.CASH)}>Cash</div>
-          <div className="w-full flex-1 button-primary text-sm text-gray-500 text-center" onClick={() => handlePaymentMethodClick(PAYMENT_METHOD.ONLINE)}>Online</div>
-        </div>
+        <PaymentMethod handleSubmit={handlePaymentMethodClick} amount={amount} />
       </div>
     </>
   )
