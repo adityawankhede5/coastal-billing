@@ -68,14 +68,20 @@ export const createOrder = async (): Promise<CreateOrderResponse> => {
   }
 };
 
-export const updateOrderPayment = async (orderId: string, method: PAYMENT_METHOD, receivedAt: number) => {
+export const updateOrderPayment = async (orderId: string, method: PAYMENT_METHOD, receivedAt: number, splitAmount: { cash: number, online: number } = { cash: 0, online: 0 }) => {
   const orderRef = doc(db, ORDERS_COLLECTION, orderId);
   await updateDoc(orderRef, {
     status: ORDER_STATUS.COMPLETE,
     payment: {
       method: method,
       receivedAt: receivedAt,
-    }
+      ...(method === PAYMENT_METHOD.SPLIT && {
+        splitAmount: {
+          cash: splitAmount.cash,
+          online: splitAmount.online,
+        },
+      }),
+    },
   });
 }
 

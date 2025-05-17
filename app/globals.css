@@ -75,6 +75,10 @@
   @apply p-5;
 }
 
+.button {
+  @apply px-4 py-2 rounded-md font-semibold hover:scale-105 active:scale-95 transition;
+}
+
 .button-primary {
   @apply bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 active:scale-95 transition;
 }

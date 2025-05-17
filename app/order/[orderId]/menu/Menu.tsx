@@ -1,7 +1,6 @@
 "use client";
 import MENU, { CATEGORY, MENU_DICTIONARY } from "@/constants/menu";
 import { MENU_CATEGORY, MENU_ITEM } from "@/constants/types";
-import { useParams, useRouter } from "next/navigation";
 import NotFound from "@/components/NotFound";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -9,7 +8,6 @@ import { useRef, useState } from "react";
 import MenuItemCard from "@/components/MenuItemCard";
 import { ORDERS_COLLECTION } from "@/constants/DB";
 import { Order, ORDER_STATUS, PAYMENT_METHOD } from "@/zustand/types";
-import { updateOrderPayment } from "@/lib/utils";
 import Header from "@/components/Header/Header";
 import HydrationSafeDate from "@/components/HydrationSafeDate";
 import ClockIcon from "@/assets/icons/Clock.icon";
@@ -20,7 +18,6 @@ import SearchInput from "@/components/SearchInput";
 import { toast } from "@/components/toast";
 import OrderSettingsDropdown from "@/components/OrderSettingsDropdown";
 import PaymentMethodCard from "@/components/PaymentMethodCard";
-import { ROUTES } from "@/constants/routes";
 function Title({
   createdAt,
   status,
@@ -55,8 +52,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
   const [order, setOrder] = useState<Order | null>(_order || null);
   const [showCart, setShowCart] = useState(false);
   const query = useRef("");
-  const router = useRouter();
-  const { orderId } = useParams();
   const handleCartButtonClick = () => {
     setShowCart(true);
     handleSaveCart();
@@ -86,25 +81,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
       quantity: newQuantity,
     };
     setOrder(newOrder);
-  };
-  const handlePaymentMethodClick = async (method: PAYMENT_METHOD) => {
-    if (!order) return;
-    try {
-      const receivedAt = Date.now();
-      await updateOrderPayment(orderId as string, method, receivedAt);
-      setOrder((prev) => {
-        if (!prev) return prev;
-        prev.status = ORDER_STATUS.COMPLETE;
-        prev.payment = { method, receivedAt };
-        return { ...prev };
-      });
-      toast("Order complete", "success");
-      setTimeout(() => {
-        router.push(ROUTES.ORDERS);
-      }, 500);
-    } catch (error) {
-      console.error(error);
-    }
   };
   const handleSaveCart = async () => {
     if (!order) return;
@@ -175,7 +151,6 @@ export default function Menu({ _order }: { _order: Order | null }) {
         <CartModal
           order={order}
           onClose={() => setShowCart(false)}
-          handlePaymentMethodClick={handlePaymentMethodClick}
         />
       )}
     </>
