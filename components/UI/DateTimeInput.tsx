@@ -1,10 +1,9 @@
 import Input from "./Input";
 
-export default function DateTimeInput() {
+export default function DateTimeInput({ required = false, defaultValue }: { required?: boolean, defaultValue?: string }) {
   return (
     <div className="flex gap-2">
-      <Input label="Date" name="date" type="date" />
-      <Input label="Time" name="time" type="time" />
+      <Input label="Date Time" name="dateTime" type="datetime-local" defaultValue={defaultValue} required={required} />
     </div>
   )
 }

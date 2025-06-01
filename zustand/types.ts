@@ -44,3 +44,27 @@ export type SideNavStore = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
+
+export enum ExpensePaidBy {
+  "Tejas" = "Tejas",
+  "Kuber" = "Kuber",
+  "Sangram" = "Sangram",
+  "Aditya" = "Aditya",
+  "Rohan" = "Rohan",
+  "Sangharsh" = "Sangharsh",
+  "Other" = "Other",
+}
+
+export type Expense = {
+  id: string;
+  name: string;
+  cost: number;
+  paidBy: {
+    name: ExpensePaidBy;
+    amount: number;
+  }[];
+  dateTime: number;
+  description?: string;
+  deleted: boolean;
+  createdAt: number;
+};

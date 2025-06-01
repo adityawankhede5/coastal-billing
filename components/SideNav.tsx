@@ -9,7 +9,7 @@ import CalendarFoldIcon from "@/assets/icons/CalendarFold.icon";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ROUTES } from "@/constants/routes";
-// import WalletIcon from "@/assets/icons/Wallet.icon";
+import WalletIcon from "@/assets/icons/Wallet.icon";
 enum NAV_ITEMS {
   NONE = "none",
   TODAY = "today",
@@ -64,10 +64,10 @@ export default function SideNav() {
             <CalendarFoldIcon className="w-6 h-6" />
             <h2 className="text-lg font-bold h-12 flex items-center">{`All Orders`}</h2>
           </div>
-          {/* <div onClick={() => handleNavClick(NAV_ITEMS.EXPENSES)} className={`flex items-center gap-2 border-b border-gray-200 ${activeNav === NAV_ITEMS.EXPENSES ? "text-indigo-600" : ""}`}>
+          <div onClick={() => handleNavClick(NAV_ITEMS.EXPENSES)} className={`flex items-center gap-2 border-b border-gray-200 ${activeNav === NAV_ITEMS.EXPENSES ? "text-indigo-600" : ""}`}>
             <WalletIcon className="w-6 h-6" />
             <h2 className="text-lg font-bold h-12 flex items-center">{`Expenses`}</h2>
-          </div> */}
+          </div>
         </main>
       </div>
     </aside>
