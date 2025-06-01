@@ -2,7 +2,6 @@ import { Expense } from "@/zustand/types";
 import ExpenseCard from "./ExpenseCard";
 import { useEffect, useState } from "react";
 import { groupBy } from "lodash";
-import Input from "./UI/Input";
 import CheckBoxIcon from "@/assets/icons/CheckBox.icon";
 
 export default function ExpensesList({ expenses, dateFilters, onEditExpenseClick, onDeleteExpenseClick, onDateFilterClick }: { expenses: Expense[], dateFilters: string[], onEditExpenseClick: (expense: Expense) => void, onDeleteExpenseClick: (expense: Expense) => void, onDateFilterClick: (date: string) => void }) {

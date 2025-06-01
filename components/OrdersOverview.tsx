@@ -20,6 +20,7 @@ export default function OrdersOverview({ orders, dateFilters }: { orders: Order[
   const [pendingOrders, setPendingOrders] = useState<ORDERS_OVERVIEW>({ count: 0, totalPrice: 0 });
   const [totalOrders, setTotalOrders] = useState<ORDERS_OVERVIEW>({ count: 0, totalPrice: 0 });
   useEffect(() => {
+    let _orders = [...orders];
     const completeOverview = {
       count: 0,
       totalPrice: 0,
@@ -45,7 +46,7 @@ export default function OrdersOverview({ orders, dateFilters }: { orders: Order[
       totalPrice: 0
     }
     if (dateFilters.length > 0) {
-      orders = orders.filter((order) => {
+      _orders = _orders.filter((order) => {
         const date = new Date(order.createdAt);
         const adjusted = new Date(order.createdAt);
 
@@ -59,7 +60,7 @@ export default function OrdersOverview({ orders, dateFilters }: { orders: Order[
         return dateFilters.includes(adjusted.toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' }));
       });
     }
-    orders.forEach((order) => {
+    _orders.forEach((order) => {
       if (order.status === ORDER_STATUS.COMPLETE) {
         completeOverview.count++;
         completeOverview.totalPrice += order.price;

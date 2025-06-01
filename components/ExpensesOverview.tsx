@@ -5,6 +5,7 @@ export default function ExpensesOverview({ expenses, dateFilters }: { expenses: 
   const [total, setTotal] = useState({ count: 0, amount: 0 });
   const [paidBy, setPaidBy] = useState<{ name: ExpensePaidBy, count: number, amount: number }[]>([]);
   useEffect(() => {
+    let _expenses = [...expenses];
     let totalAmount = 0;
     let totalCount = 0;
     const paidBy: Record<ExpensePaidBy, { count: number, amount: number }> = {
@@ -17,9 +18,9 @@ export default function ExpensesOverview({ expenses, dateFilters }: { expenses: 
       [ExpensePaidBy.Other]: { count: 0, amount: 0 },
     };
     if (dateFilters.length > 0) {
-      expenses = expenses.filter((expense) => dateFilters.includes(new Date(expense.dateTime).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' })));
+      _expenses = _expenses.filter((expense) => dateFilters.includes(new Date(expense.dateTime).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' })));
     }
-    expenses.forEach((expense) => {
+    _expenses.forEach((expense) => {
       totalAmount += expense.cost;
       totalCount++;
       expense.paidBy.forEach((payee) => {
