@@ -39,7 +39,7 @@ export default function Home() {
     <>
       <Header title={<Title />} titleSmall="Orders" />
       <div className="grid grid-cols-1 gap-4">
-        <OrdersOverview orders={orders} />
+        <OrdersOverview orders={orders} dateFilters={[]} />
         <OrdersList orders={orders} />
       </div>
       <NewOrderButton />
