@@ -1,12 +1,12 @@
 import { Expense, ExpensePaidBy } from "@/zustand/types";
 import { useEffect, useState } from "react";
 
-export default function ExpensesOverview({ expenses }: { expenses: Expense[] }) {
+export default function ExpensesOverview({ expenses, dateFilters }: { expenses: Expense[], dateFilters: string[] }) {
   const [total, setTotal] = useState({ count: 0, amount: 0 });
   const [paidBy, setPaidBy] = useState<{ name: ExpensePaidBy, count: number, amount: number }[]>([]);
   useEffect(() => {
     let totalAmount = 0;
-    const totalCount = expenses.length;
+    let totalCount = 0;
     const paidBy: Record<ExpensePaidBy, { count: number, amount: number }> = {
       [ExpensePaidBy.Tejas]: { count: 0, amount: 0 },
       [ExpensePaidBy.Kuber]: { count: 0, amount: 0 },
@@ -16,8 +16,12 @@ export default function ExpensesOverview({ expenses }: { expenses: Expense[] }) 
       [ExpensePaidBy.Sangharsh]: { count: 0, amount: 0 },
       [ExpensePaidBy.Other]: { count: 0, amount: 0 },
     };
+    if (dateFilters.length > 0) {
+      expenses = expenses.filter((expense) => dateFilters.includes(new Date(expense.dateTime).toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' })));
+    }
     expenses.forEach((expense) => {
       totalAmount += expense.cost;
+      totalCount++;
       expense.paidBy.forEach((payee) => {
         paidBy[payee.name].count++;
         paidBy[payee.name].amount += payee.amount;
@@ -25,7 +29,7 @@ export default function ExpensesOverview({ expenses }: { expenses: Expense[] }) 
     });
     setTotal({ count: totalCount, amount: totalAmount });
     setPaidBy(Object.entries(paidBy).filter(([name, value]) => name && value.count > 0).map(([name, value]) => ({ name: name as ExpensePaidBy, count: value.count, amount: value.amount })));
-  }, [expenses]);
+  }, [expenses, dateFilters]);
   return (
     <main className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="p-1 grid grid-cols-1 gap-2">

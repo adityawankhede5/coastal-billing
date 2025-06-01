@@ -19,6 +19,7 @@ export default function Expenses() {
   });
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [dateFilters, setDateFilters] = useState<string[]>([]);
   useEffect(() => {
     fetchAllExpenses().then((expenses) => {
       setExpenses(expenses);
@@ -45,13 +46,16 @@ export default function Expenses() {
       toast("Failed to delete expense");
     }
   }
+  const onDateFilterClick = (date: string) => {
+    setDateFilters(dateFilters.includes(date) ? dateFilters.filter((d) => d !== date) : [...dateFilters, date]);
+  }
 
   if (isLoading) return <LoadingSkeleton />
   return <>
     <Header title="Expenses" titleSmall="Expenses" />
     <div className="grid grid-cols-1 gap-4">
-      <ExpensesOverview expenses={expenses} />
-      <ExpensesList expenses={expenses} onEditExpenseClick={onEditExpenseClick} onDeleteExpenseClick={onDeleteExpenseClick} />
+      <ExpensesOverview expenses={expenses} dateFilters={dateFilters} />
+      <ExpensesList expenses={expenses} dateFilters={dateFilters} onEditExpenseClick={onEditExpenseClick} onDeleteExpenseClick={onDeleteExpenseClick} onDateFilterClick={onDateFilterClick} />
     </div>
     <ExpenseButton onClick={() => { setExpenseModal({ type: ExpenseModalType.ADD, isOpen: true, expense: undefined }) }} />
     {expenseModal.isOpen && <ExpenseModal type={expenseModal.type} onClose={() => { setExpenseModal({ ...expenseModal, isOpen: false }) }} onExpenseAdded={onExpenseAdded} onExpenseUpdated={onExpenseUpdated} expense={expenseModal.expense} />}
