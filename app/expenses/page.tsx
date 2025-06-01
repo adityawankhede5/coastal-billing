@@ -12,7 +12,6 @@ import ExpensesList from "@/components/ExpensesList";
 import { toast } from "@/components/toast";
 
 export default function Expenses() {
-  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
   const [expenseModal, setExpenseModal] = useState<{ type: ExpenseModalType, isOpen: boolean, expense?: Expense }>({
     type: ExpenseModalType.ADD,
     isOpen: false,

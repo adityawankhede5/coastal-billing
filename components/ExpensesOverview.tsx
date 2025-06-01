@@ -7,7 +7,7 @@ export default function ExpensesOverview({ expenses }: { expenses: Expense[] }) 
   useEffect(() => {
     let totalAmount = 0;
     const totalCount = expenses.length;
-    let paidBy: Record<ExpensePaidBy, { count: number, amount: number }> = {
+    const paidBy: Record<ExpensePaidBy, { count: number, amount: number }> = {
       [ExpensePaidBy.Tejas]: { count: 0, amount: 0 },
       [ExpensePaidBy.Kuber]: { count: 0, amount: 0 },
       [ExpensePaidBy.Sangram]: { count: 0, amount: 0 },
@@ -24,7 +24,7 @@ export default function ExpensesOverview({ expenses }: { expenses: Expense[] }) 
       });
     });
     setTotal({ count: totalCount, amount: totalAmount });
-    setPaidBy(Object.entries(paidBy).filter(([_, value]) => value.count > 0).map(([name, value]) => ({ name: name as ExpensePaidBy, count: value.count, amount: value.amount })));
+    setPaidBy(Object.entries(paidBy).filter(([name, value]) => name && value.count > 0).map(([name, value]) => ({ name: name as ExpensePaidBy, count: value.count, amount: value.amount })));
   }, [expenses]);
   return (
     <main className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
