@@ -17,7 +17,7 @@ export default function ExpenseCard({ expense, onEditExpenseClick, onDeleteExpen
         </div>
         <div>
           <div className="flex-1 text-right text-indigo-600">₹{expense.cost}</div>
-          <div className="flex items-center gap-1 text-sm text-gray-500"><UserIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" /> Paid by {expense.paidBy[0].name}</div>
+          <div className="flex items-center gap-1 text-sm text-gray-500 font-semibold"><UserIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" />{expense.paidBy[0].name}</div>
         </div>
       </section>
       {
