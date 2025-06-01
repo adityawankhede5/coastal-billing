@@ -15,11 +15,12 @@ type ORDERS_OVERVIEW = {
   }
 }
 
-export default function OrdersOverview({ orders }: { orders: Order[] }) {
+export default function OrdersOverview({ orders, dateFilters }: { orders: Order[], dateFilters: string[] }) {
   const [completeOrders, setCompleteOrders] = useState<ORDERS_OVERVIEW>({ count: 0, totalPrice: 0 });
   const [pendingOrders, setPendingOrders] = useState<ORDERS_OVERVIEW>({ count: 0, totalPrice: 0 });
   const [totalOrders, setTotalOrders] = useState<ORDERS_OVERVIEW>({ count: 0, totalPrice: 0 });
   useEffect(() => {
+    let _orders = [...orders];
     const completeOverview = {
       count: 0,
       totalPrice: 0,
@@ -44,7 +45,22 @@ export default function OrdersOverview({ orders }: { orders: Order[] }) {
       count: 0,
       totalPrice: 0
     }
-    orders.forEach((order) => {
+    if (dateFilters.length > 0) {
+      _orders = _orders.filter((order) => {
+        const date = new Date(order.createdAt);
+        const adjusted = new Date(order.createdAt);
+
+        // If time is before 4am, subtract a day to group it with the previous day
+        if (date.getHours() < 4) {
+          adjusted.setDate(date.getDate() - 1);
+        }
+
+        // Set to 4am of that day for consistent grouping
+        adjusted.setHours(4, 0, 0, 0);
+        return dateFilters.includes(adjusted.toLocaleDateString('en-IN', { year: 'numeric', month: '2-digit', day: '2-digit' }));
+      });
+    }
+    _orders.forEach((order) => {
       if (order.status === ORDER_STATUS.COMPLETE) {
         completeOverview.count++;
         completeOverview.totalPrice += order.price;
@@ -70,7 +86,7 @@ export default function OrdersOverview({ orders }: { orders: Order[] }) {
     setCompleteOrders(completeOverview);
     setPendingOrders(pendingOverview);
     setTotalOrders(totalOverview);
-  }, [orders]);
+  }, [orders, dateFilters]);
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="p-3 grid grid-cols-2 gap-3">
