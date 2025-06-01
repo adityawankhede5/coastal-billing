@@ -13,7 +13,7 @@ export default function ExpenseCard({ expense, onEditExpenseClick, onDeleteExpen
       <section className="flex justify-between px-3 py-3 text-lg" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="font-bold">
           <div className="flex-1">{expense.name}</div>
-          <div className="flex items-center gap-1 text-sm text-gray-500"><CalendarIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" /> <HydrationSafeDate milliseconds={expense.dateTime} detailed /></div>
+          <div className="flex items-center gap-1 text-sm text-gray-500"><CalendarIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" /> <HydrationSafeDate milliseconds={expense.dateTime} timeOnly /></div>
         </div>
         <div>
           <div className="flex-1 text-right text-indigo-600">₹{expense.cost}</div>
