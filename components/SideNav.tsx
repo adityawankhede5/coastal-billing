@@ -22,7 +22,6 @@ export default function SideNav() {
   const { isOpen, setIsOpen } = useSideNavStore();
   const router = useRouter();
   useEffect(() => {
-    console.log(pathname, ROUTES.ORDERS, ROUTES.ALL_ORDERS);
     if (pathname === ROUTES.ORDERS) {
       setActiveNav(NAV_ITEMS.TODAY);
     } else if (pathname === ROUTES.ALL_ORDERS) {

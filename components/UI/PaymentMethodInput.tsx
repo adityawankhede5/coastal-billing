@@ -3,39 +3,15 @@ import CheckCircleIcon from "@/assets/icons/CheckCirlce.icon";
 import CloseIcon from "@/assets/icons/Close.icon";
 import QRIcon from "@/assets/icons/QR.icon";
 import SplitIcon from "@/assets/icons/Split.icon";
-import { updateOrderPayment } from "@/lib/utils";
 import { PAYMENT_METHOD } from "@/zustand/types";
-import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "./toast";
-import { ROUTES } from "@/constants/routes";
-export default function PaymentMethod({ amount }: { amount: number }) {
-  const { orderId } = useParams();
-  const router = useRouter();
+
+export default function PaymentMethodInput({ amount, onSubmit }: { amount: number, onSubmit: (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string }) => void }) {
   const [showSplit, setShowSplit] = useState(false);
-  const [splitAmount, setSplitAmount] = useState({
+  const [splitInput, setSplitInput] = useState({
     cash: "",
     online: "",
   });
-
-  const handleSubmit = async (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string } = { cash: "", online: "" }) => {
-    if (!orderId) return;
-    try {
-      const receivedAt = Date.now();
-      const split = {
-        cash: Number(splitAmount.cash),
-        online: Number(splitAmount.online),
-      }
-      await updateOrderPayment(orderId as string, method, receivedAt, split);
-      toast("Order complete", "success");
-      setTimeout(() => {
-        router.push(ROUTES.ORDERS);
-      }, 500);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const handleSplitInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "cash" | "online") => {
     let cash = "";
     let online = "";
@@ -48,18 +24,28 @@ export default function PaymentMethod({ amount }: { amount: number }) {
         cash = (amount - Number(online)).toString();
       }
     }
-    setSplitAmount({ cash, online });
+    setSplitInput({ cash, online });
   }
-
   const handleSplitSubmit = () => {
-    handleSubmit(PAYMENT_METHOD.SPLIT, splitAmount);
+    setShowSplit(false);
+    handleSubmit(PAYMENT_METHOD.SPLIT, splitInput);
   }
-
+  const handleSubmit = (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string } = { cash: "", online: "" }) => {
+    const _splitAmount = { cash: splitAmount.cash, online: splitAmount.online };
+    if (method === PAYMENT_METHOD.CASH) {
+      _splitAmount.online = "0";
+      _splitAmount.cash = amount.toString();
+    } else if (method === PAYMENT_METHOD.ONLINE) {
+      _splitAmount.cash = "0";
+      _splitAmount.online = amount.toString();
+    }
+    onSubmit(method, _splitAmount);
+  }
   if (showSplit) {
     return (
       <div className="grid grid-cols-2 gap-2 w-full">
-        <input autoFocus type="number" placeholder="Cash" value={splitAmount.cash} onChange={(e) => handleSplitInputChange(e, "cash")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-emerald-600 outline-none text-md text-center" />
-        <input type="number" placeholder="Online" value={splitAmount.online} onChange={(e) => handleSplitInputChange(e, "online")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-purple-600 outline-none text-md text-center" />
+        <input autoFocus type="number" placeholder="Cash" value={splitInput.cash} onChange={(e) => handleSplitInputChange(e, "cash")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-emerald-600 outline-none text-md text-center" />
+        <input type="number" placeholder="Online" value={splitInput.online} onChange={(e) => handleSplitInputChange(e, "online")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-purple-600 outline-none text-md text-center" />
         <div className="w-full flex gap-2 col-span-2">
           <div className="w-full flex justify-center items-center gap-2 button border border-blue-600 bg-blue-600 text-white text-sm text-center col-span-3" onClick={handleSplitSubmit}><CheckCircleIcon className="w-5 h-5" /> Done</div>
           <div className="flex justify-center items-center gap-2 button border border-blue-600 text-blue-600 text-sm text-center" onClick={() => setShowSplit(false)}><CloseIcon className="w-5 h-5" /></div>
