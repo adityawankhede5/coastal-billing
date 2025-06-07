@@ -49,6 +49,7 @@ export enum ExpensePaidBy {
   "Tejas" = "Tejas",
   "Kuber" = "Kuber",
   "Sangram" = "Sangram",
+  "Coastal" = "Coastal",
   "Aditya" = "Aditya",
   "Rohan" = "Rohan",
   "Sangharsh" = "Sangharsh",
