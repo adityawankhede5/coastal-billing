@@ -8,7 +8,6 @@ import { useState } from "react";
 
 export default function PaymentMethodInput({ amount, onSubmit, method, splitAmount, label = "Method", required = false }: { amount: number, onSubmit: (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string }) => void, method?: PAYMENT_METHOD, splitAmount?: { cash: string, online: string }, label?: string, required?: boolean }) {
   const [showSplit, setShowSplit] = useState(false);
-  const [methodInput, setMethodInput] = useState(method);
   const [splitInput, setSplitInput] = useState({
     cash: splitAmount?.cash || "",
     online: splitAmount?.online || "",
