@@ -12,6 +12,7 @@ export default function ExpensesOverview({ expenses, dateFilters }: { expenses: 
       [ExpensePaidBy.Tejas]: { count: 0, amount: 0 },
       [ExpensePaidBy.Kuber]: { count: 0, amount: 0 },
       [ExpensePaidBy.Sangram]: { count: 0, amount: 0 },
+      [ExpensePaidBy.Coastal]: { count: 0, amount: 0 },
       [ExpensePaidBy.Aditya]: { count: 0, amount: 0 },
       [ExpensePaidBy.Rohan]: { count: 0, amount: 0 },
       [ExpensePaidBy.Sangharsh]: { count: 0, amount: 0 },

@@ -41,7 +41,7 @@ export default function OrderCard({ order }: { order: Order }) {
           </div>
           <div className="flex items-center gap-2">
             <OrderStatusCard status={order.status} />
-            {order.status === ORDER_STATUS.COMPLETE && <PaymentDetailsCard order={order} className="flex-col pl-2 border-l border-gray-200" />}
+            {order.status === ORDER_STATUS.COMPLETE && <PaymentDetailsCard order={order} className="flex-col pl-2 border-l border-gray-200 items-start" />}
           </div>
         </div>
       </Link>

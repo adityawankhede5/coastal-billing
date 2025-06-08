@@ -49,6 +49,7 @@ export enum ExpensePaidBy {
   "Tejas" = "Tejas",
   "Kuber" = "Kuber",
   "Sangram" = "Sangram",
+  "Coastal" = "Coastal",
   "Aditya" = "Aditya",
   "Rohan" = "Rohan",
   "Sangharsh" = "Sangharsh",
@@ -64,6 +65,13 @@ export type Expense = {
     amount: number;
   }[];
   dateTime: number;
+  payment?: {
+    method: PAYMENT_METHOD;
+    splitAmount?: {
+      cash: number;
+      online: number;
+    };
+  };
   description?: string;
   deleted: boolean;
   createdAt: number;
