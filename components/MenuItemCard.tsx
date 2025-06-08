@@ -12,7 +12,7 @@ export default function MenuItemCard({ item, quantity = 0, query, handleUpdateCa
     handleUpdateCart(item.id, quantity);
   }
   return (
-    <div className="relative bg-white rounded-xl grid grid-rows-[auto_1fr_auto] shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 w-full min-h-56 max-h-56 p-4" onClick={(e) => onPlusMinusClick(e, 1)}>
+    <div className={`relative bg-white rounded-xl grid grid-rows-[auto_1fr_auto] shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 w-full min-h-56 max-h-56 p-4 border ${quantity > 0 ? "border-indigo-400" : "border-indigo-50"}`} onClick={(e) => onPlusMinusClick(e, 1)}>
       <Icon className="absolute top-0 right-0 w-24 h-24 text-indigo-200/15" />
       <div>
         <span className="text-lg font-bold text-gray-900"><HighlightText text={item.name} query={query} /></span>
