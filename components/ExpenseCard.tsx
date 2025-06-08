@@ -5,6 +5,7 @@ import UserIcon from "@/assets/icons/User.icon";
 import { useState } from "react";
 import DeleteIcon from "@/assets/icons/Delete.icon";
 import PencilIcon from "@/assets/icons/Pencil.icon";
+import CashOnlinePaymentCard from "./CashOnlinePaymentCard";
 
 export default function ExpenseCard({ expense, onEditExpenseClick, onDeleteExpenseClick }: { expense: Expense, onEditExpenseClick: (expense: Expense) => void, onDeleteExpenseClick: (expense: Expense) => void }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -16,8 +17,8 @@ export default function ExpenseCard({ expense, onEditExpenseClick, onDeleteExpen
           <div className="flex items-center gap-1 text-sm text-gray-500"><CalendarIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" /> <HydrationSafeDate milliseconds={expense.dateTime} timeOnly /></div>
         </div>
         <div>
-          <div className="flex-1 text-right text-indigo-600">₹{expense.cost}</div>
-          <div className="flex items-center gap-1 text-sm text-gray-500 font-semibold"><UserIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" />{expense.paidBy[0].name}</div>
+          <div className="flex-1 text-right text-indigo-600">{expense.payment ? <CashOnlinePaymentCard className="text-indigo-600 h-7 flex gap-2 justify-end" cash={expense.payment.splitAmount?.cash || 0} online={expense.payment.splitAmount?.online || 0} /> : `₹${expense.cost}`}</div>
+          <div className="flex items-center justify-end gap-1 text-sm text-gray-500 font-semibold"><UserIcon className="min-w-4 min-h-4 max-w-4 max-h-4 text-indigo-600" />{expense.paidBy[0].name}</div>
         </div>
       </section>
       {

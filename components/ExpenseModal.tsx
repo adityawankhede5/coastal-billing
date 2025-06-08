@@ -4,15 +4,21 @@ import Input from "./UI/Input";
 import Select from "./UI/Select";
 import DateTimeInput from "./UI/DateTimeInput";
 import Button from "./UI/Button";
-import { FormEvent, useRef } from "react";
-import { Expense, ExpensePaidBy } from "@/zustand/types";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { Expense, ExpensePaidBy, PAYMENT_METHOD } from "@/zustand/types";
 import { createExpense, updateExpense } from "@/lib/expenses.api";
 import { toast } from "./toast";
 import { getLocalDateTimeString } from "@/app/expenses/helper";
+import PaymentMethodInput from "./UI/PaymentMethodInput";
 
 const paidByOptions = Object.values(ExpensePaidBy);
 
 export default function ExpenseModal({ type = ExpenseModalType.ADD, onClose, onExpenseAdded, onExpenseUpdated, expense }: { type: ExpenseModalType, onClose: () => void, onExpenseAdded: (expense: Expense) => void, onExpenseUpdated: (expense: Expense) => void, expense?: Expense }) {
+  const [costInput, setCostInput] = useState(expense?.cost || 0);
+  const [payment, setPayment] = useState<{ method: PAYMENT_METHOD, splitAmount: { cash: number, online: number } }>({
+    method: type === ExpenseModalType.EDIT ? expense?.payment?.method || PAYMENT_METHOD.CASH : PAYMENT_METHOD.CASH,
+    splitAmount: type === ExpenseModalType.EDIT ? expense?.payment?.splitAmount || { cash: 0, online: 0 } : { cash: 0, online: 0 },
+  });
   const formDefaults = useRef({
     name: type === ExpenseModalType.EDIT ? expense?.name : "",
     cost: type === ExpenseModalType.EDIT ? expense?.cost.toString() : "",
@@ -49,16 +55,18 @@ export default function ExpenseModal({ type = ExpenseModalType.ADD, onClose, onE
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const expenseData = Object.fromEntries(formData.entries());
 
     try {
-      // Here you would typically send the data to your API
       const expenseObject = {
         name: expenseData.name as string,
         cost: Number(expenseData.cost),
         paidBy: [{ name: expenseData.paidBy as ExpensePaidBy, amount: Number(expenseData.cost) }],
+        payment: {
+          method: payment.method,
+          splitAmount: payment.splitAmount,
+        },
         dateTime: new Date(expenseData.dateTime as string).getTime(),
         description: expenseData.description as string,
         deleted: false,
@@ -77,6 +85,23 @@ export default function ExpenseModal({ type = ExpenseModalType.ADD, onClose, onE
     }
   };
 
+  const handleCostChange = (e: ChangeEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    const expenseData = Object.fromEntries(formData.entries());
+    const _cost = Number(expenseData.cost);
+    if (costInput !== _cost) {
+      setCostInput(_cost);
+      setPayment((prev) => {
+        if (prev.method === PAYMENT_METHOD.SPLIT || prev.method === PAYMENT_METHOD.CASH) {
+          return { method: PAYMENT_METHOD.CASH, splitAmount: { cash: _cost, online: 0 } };
+        } else {
+          return { method: PAYMENT_METHOD.ONLINE, splitAmount: { cash: 0, online: _cost } };
+        }
+      });
+    }
+
+  }
+
   return (
     <div className="box-border fixed top-0 left-0 w-screen h-screen bg-black/75 z-50" onClick={onClose}>
       <div className="absolute bottom-0 w-full bg-white rounded-t-2xl p-4" onClick={(e) => e.stopPropagation()}>
@@ -88,10 +113,13 @@ export default function ExpenseModal({ type = ExpenseModalType.ADD, onClose, onE
         </header>
 
         <main className="mb-8">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <form onSubmit={handleSubmit} onChange={handleCostChange} className="flex flex-col gap-3">
             <Input label="Name" name="name" placeholder="Enter expense name" required defaultValue={formDefaults.current.name} />
             <Input label="Cost" type="number" name="cost" placeholder="Enter expense cost" prefix="&#8377;" required defaultValue={formDefaults.current.cost} />
             <Select label="Paid By" name="paidBy" options={paidByOptions} required defaultValue={formDefaults.current.paidBy?.[0]?.name} />
+            <PaymentMethodInput label="Payment Method" method={payment.method} splitAmount={{ cash: payment.splitAmount.cash.toString(), online: payment.splitAmount.online.toString() }} required amount={costInput} onSubmit={(method, splitAmount) => {
+              setPayment({ method, splitAmount: { cash: Number(splitAmount.cash), online: Number(splitAmount.online) } });
+            }} />
             <DateTimeInput required defaultValue={formDefaults.current.dateTime} />
             <Input label="Description" name="description" placeholder="Enter expense description" defaultValue={formDefaults.current.description} />
             <div className="flex justify-end gap-2">

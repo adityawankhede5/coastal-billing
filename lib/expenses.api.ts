@@ -15,13 +15,14 @@ export const serializeExpense = (expenseDoc: DocumentSnapshot<DocumentData>): Ex
     paidBy: data.paidBy,
     dateTime: data.dateTime,
     description: data.description,
+    payment: data.payment,
     deleted: data.deleted ?? false,
   }
 }
 
 export const fetchAllExpenses = async () => {
   const expensesRef = collection(db, EXPENSES_COLLECTION);
-  const expensesSnapshot = await getDocs(query(expensesRef, orderBy("createdAt", "desc")));
+  const expensesSnapshot = await getDocs(query(expensesRef, orderBy("dateTime", "desc")));
   const expenses = expensesSnapshot.docs.map(serializeExpense);
   return expenses.filter((expense) => !expense.deleted);
 }

@@ -15,7 +15,7 @@ export default function CartModal({ order, onClose }: { order: Order, onClose: (
           <h1 className="text-2xl font-bold">Cart</h1>
           <div className="flex-1 flex gap-2">
             <OrderStatusCard status={order.status} />
-            {order.status === ORDER_STATUS.COMPLETE && <PaymentDetailsCard order={order} className="flex-col pl-2 border-l border-gray-200" />}
+            {order.status === ORDER_STATUS.COMPLETE && <PaymentDetailsCard order={order} className="flex-col pl-2 border-l border-gray-200 items-start" />}
           </div>
           <CloseIcon className="w-6 h-6" onClick={onClose} />
         </header>

@@ -6,11 +6,12 @@ import SplitIcon from "@/assets/icons/Split.icon";
 import { PAYMENT_METHOD } from "@/zustand/types";
 import { useState } from "react";
 
-export default function PaymentMethodInput({ amount, onSubmit }: { amount: number, onSubmit: (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string }) => void }) {
+export default function PaymentMethodInput({ amount, onSubmit, method, splitAmount, label = "Method", required = false }: { amount: number, onSubmit: (method: PAYMENT_METHOD, splitAmount: { cash: string, online: string }) => void, method?: PAYMENT_METHOD, splitAmount?: { cash: string, online: string }, label?: string, required?: boolean }) {
   const [showSplit, setShowSplit] = useState(false);
+  const [methodInput, setMethodInput] = useState(method);
   const [splitInput, setSplitInput] = useState({
-    cash: "",
-    online: "",
+    cash: splitAmount?.cash || "",
+    online: splitAmount?.online || "",
   });
   const handleSplitInputChange = (e: React.ChangeEvent<HTMLInputElement>, type: "cash" | "online") => {
     let cash = "";
@@ -44,6 +45,7 @@ export default function PaymentMethodInput({ amount, onSubmit }: { amount: numbe
   if (showSplit) {
     return (
       <div className="grid grid-cols-2 gap-2 w-full">
+        <label className="text-md font-medium col-span-2">{label} {required && <span className="text-red-500">*</span>}</label>
         <input autoFocus type="number" placeholder="Cash" value={splitInput.cash} onChange={(e) => handleSplitInputChange(e, "cash")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-emerald-600 outline-none text-md text-center" />
         <input type="number" placeholder="Online" value={splitInput.online} onChange={(e) => handleSplitInputChange(e, "online")} className="w-full flex justify-center items-center gap-2 flex-1 button border-2 border-purple-600 outline-none text-md text-center" />
         <div className="w-full flex gap-2 col-span-2">
@@ -56,9 +58,10 @@ export default function PaymentMethodInput({ amount, onSubmit }: { amount: numbe
 
   return (
     <div className="grid grid-cols-2 gap-2 w-full">
-      <div className="w-full flex justify-center items-center gap-2 flex-1 button border border-emerald-600 bg-emerald-600 text-white text-sm text-center" onClick={() => handleSubmit(PAYMENT_METHOD.CASH)}><CashInIcon className="w-5 h-5" /> Cash</div>
-      <div className="w-full flex justify-center items-center gap-2 flex-1 button border border-purple-600 bg-purple-600 text-white text-sm text-center" onClick={() => handleSubmit(PAYMENT_METHOD.ONLINE)}><QRIcon className="w-5 h-5" /> Online</div>
-      <div className="w-full flex justify-center items-center gap-2 flex-1 button border border-blue-600 bg-blue-600 text-white text-sm text-center col-span-2" onClick={() => setShowSplit(true)}><SplitIcon className="w-5 h-5" /> Split</div>
+      <label className="text-md font-medium col-span-2">{label} {required && <span className="text-red-500">*</span>}</label>
+      <div className={`w-full flex justify-center items-center gap-2 flex-1 button border border-emerald-600 text-emerald-600 text-sm text-center ${method === PAYMENT_METHOD.CASH ? "bg-emerald-600 text-white" : ""}`} onClick={() => handleSubmit(PAYMENT_METHOD.CASH)}><CashInIcon className="w-5 h-5" /> Cash {splitAmount?.cash ? <>(&#8377;{splitAmount.cash})</> : ""}</div>
+      <div className={`w-full flex justify-center items-center gap-2 flex-1 button border border-purple-600 text-purple-600 text-sm text-center ${method === PAYMENT_METHOD.ONLINE ? "bg-purple-600 text-white" : ""}`} onClick={() => handleSubmit(PAYMENT_METHOD.ONLINE)}><QRIcon className="w-5 h-5" /> Online {splitAmount?.online ? <>(&#8377;{splitAmount.online})</> : ""}</div>
+      <div className={`w-full flex justify-center items-center gap-2 flex-1 button border border-blue-600 text-blue-600 text-sm text-center col-span-2 ${method === PAYMENT_METHOD.SPLIT ? "bg-blue-600 text-white" : ""}`} onClick={() => setShowSplit(true)}><SplitIcon className="w-5 h-5" /> Split</div>
     </div>
   )
 }
