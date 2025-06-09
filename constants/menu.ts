@@ -57,6 +57,7 @@ const GOODMORNINGS: Record<string, MENU_ITEM> = {
 
 const SIDES: Record<string, MENU_ITEM> = {
   "yutrgh": { "id": "yutrgh", "name": "Fries", "description": "Crispy fries", "price": 65, "type": MENU_CATEGORY.SIDES },
+  "qztrgh": { "id": "qztrgh", "name": "Extra Cheese", "description": "Extra Cheese", "price": 10, "type": MENU_CATEGORY.SIDES },
   "cmert": { "id": "cmert", "name": "Choco Meltwich", "description": "Coastal Special", "price": 90, "type": MENU_CATEGORY.SIDES },
   "wbrtij": { "id": "wbrtij", "name": "Water Bottle 0.5L", "description": "500ml", "price": 10, "type": MENU_CATEGORY.SIDES },
   "wbytrf": { "id": "wbytrf", "name": "Water Bottle 1L", "description": "1L", "price": 20, "type": MENU_CATEGORY.SIDES },
