@@ -12,7 +12,7 @@ const SANDWICHES: Record<string, MENU_ITEM> = {
   "cjdksa": { "id": "cjdksa", "name": "Cheese Veg Grill", "description": "Veg grill with cheese on top and chips", "price": 70, "type": MENU_CATEGORY.SANDWICH },
   "plokij": { "id": "plokij", "name": "Garlic Veg Grill", "description": "Veg grill with garlic sauce and chips", "price": 70, "type": MENU_CATEGORY.SANDWICH },
   "mdjfke": { "id": "mdjfke", "name": "Schezwan Veg Grill", "description": "Veg grill with schezwan sauce and chips", "price": 70, "type": MENU_CATEGORY.SANDWICH },
-  "hgityr": { "id": "hgityr", "name": "Paneer Tikka Grill", "description": "Paneer tikka with smokey sauce and chips", "price": 70, "type": MENU_CATEGORY.SANDWICH },
+  "hgityr": { "id": "hgityr", "name": "Paneer Tikka Grill", "description": "Paneer tikka with smokey sauce and chips", "price": 80, "type": MENU_CATEGORY.SANDWICH },
   "zmxvbn": { "id": "zmxvbn", "name": "Cheese Corn", "description": "Corn & onion with cheese on top and chips", "price": 70, "type": MENU_CATEGORY.SANDWICH },
   "anxvbn": { "id": "anxvbn", "name": "Cheese Corn Paneer", "description": "Corn, onion and paneer with cheese on top and chips", "price": 80, "type": MENU_CATEGORY.SANDWICH },
   "xswedc": { "id": "xswedc", "name": "Tandoori Paneer", "description": "Paneer and onion in tandoori sauce with cheese on top and chips", "price": 75, "type": MENU_CATEGORY.SANDWICH },
