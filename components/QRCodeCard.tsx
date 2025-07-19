@@ -6,9 +6,9 @@ import { toast } from "./toast";
 import { ROUTES } from "@/constants/routes";
 import { updateOrderPayment } from "@/lib/utils";
 
-const UPI_ID = "Q156327102@ybl";
-const NAME = "PhonePeMerchant";
-const DISPLAY_NAME = "MR KUBER NITIN PATIL";
+const UPI_ID = "paytm.s1c9yxw@pty";
+const NAME = "Paytm";
+const DISPLAY_NAME = "TEJAS MARUTI AGAVANE";
 export default function QRCodeCard({ amount }: { amount: number }) {
   const { orderId } = useParams();
   const router = useRouter();
