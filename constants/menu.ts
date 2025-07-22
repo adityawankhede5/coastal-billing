@@ -6,6 +6,7 @@ import ComboIcon from "@/assets/icons/Combo.icon";
 import SandwichIcon from "@/assets/icons/Sandwich.icon";
 import { sortBy } from "lodash";
 import FriesIcon from "@/assets/icons/Fries.icon";
+import PizzaIcon from "@/assets/icons/Pizza.icon";
 
 const SANDWICHES: Record<string, MENU_ITEM> = {
   "bifmcw": { "id": "bifmcw", "name": "Veg Grill", "description": "Onion, capsicum, tomato etc with chips", "price": 65, "type": MENU_CATEGORY.SANDWICH },
@@ -63,6 +64,14 @@ const SIDES: Record<string, MENU_ITEM> = {
   "wbytrf": { "id": "wbytrf", "name": "Water Bottle 1L", "description": "1L", "price": 20, "type": MENU_CATEGORY.SIDES },
 }
 
+const PIZZAS: Record<string, MENU_ITEM> = {
+  "pizza1": { "id": "pizza1", "name": "Desi Pizza", "description": "Onion, capsicum, tomato, paneer, corn, cheese, sauces", "price": 160, "type": MENU_CATEGORY.PIZZA },
+  "pizza2": { "id": "pizza2", "name": "Paneer Pizza", "description": "Paneer, onion, capsicum, tomato, cheese", "price": 140, "type": MENU_CATEGORY.PIZZA },
+  "pizza3": { "id": "pizza3", "name": "Margherita Pizza", "description": "Cheesy pizza with onion, capsicum, tomato", "price": 120, "type": MENU_CATEGORY.PIZZA },
+  "pizza4": { "id": "pizza4", "name": "Overloaded Pizza", "description": "Overloaded with onion, capsicum, tomato, paneer, corn, cheese, sauces", "price": 180, "type": MENU_CATEGORY.PIZZA },
+  "pizza5": { "id": "pizza5", "name": "Jain Pizza", "description": "Capsicum, tomato, paneer, corn, cheese, sauces", "price": 130, "type": MENU_CATEGORY.PIZZA },
+}
+
 export type Menu = Record<MENU_CATEGORY, MENU_ITEM[]>;
 export enum CATEGORY {
   SANDWICH = "Sandwiches",
@@ -71,6 +80,7 @@ export enum CATEGORY {
   COMBO = "Combos",
   TRIPLE_LAYERED_MEAL = "Triple Layered Meals",
   GOOD_MORNING = "Good Morning",
+  PIZZA = "Pizza",
 }
 
 const MENU: Menu = {
@@ -80,6 +90,7 @@ const MENU: Menu = {
   TRIPLE_LAYERED_MEAL: Object.values(TRIPLE_LAYERED_MEALS),
   COMBO: Object.values(COMBOS),
   GOOD_MORNING: Object.values(GOODMORNINGS),
+  PIZZA: Object.values(PIZZAS),
 }
 export const MENU_ARRAY = Object.values(MENU).flat();
 export const MENU_ARRAY_SORTED = sortBy(MENU_ARRAY, "name");
@@ -91,6 +102,7 @@ export const MENU_DICTIONARY: Record<string, MENU_ITEM> = {
   ...TRIPLE_LAYERED_MEALS,
   ...COMBOS,
   ...GOODMORNINGS,
+  ...PIZZAS,
 }
 
 export const MENU_CATEGORY_ICONS: Record<MENU_CATEGORY, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -100,6 +112,7 @@ export const MENU_CATEGORY_ICONS: Record<MENU_CATEGORY, React.ComponentType<Reac
   [MENU_CATEGORY.GOOD_MORNING]: MorningIcon,
   [MENU_CATEGORY.COMBO]: ComboIcon,
   [MENU_CATEGORY.TRIPLE_LAYERED_MEAL]: MealIcon,
+  [MENU_CATEGORY.PIZZA]: PizzaIcon,
 }
 
 export default MENU;

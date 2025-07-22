@@ -5,6 +5,7 @@ export enum MENU_CATEGORY {
   GOOD_MORNING = "GOOD_MORNING",
   COMBO = "COMBO",
   TRIPLE_LAYERED_MEAL = "TRIPLE_LAYERED_MEAL",
+  PIZZA = "PIZZA",
 }
 export type MENU_ITEM = {
   id: string;
